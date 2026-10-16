@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Vote, Users, Shield, Zap, ExternalLink } from 'lucide-react'
 import { DAO as DAOConfig, PROJECT } from '../config'
+import { ASSETS } from '../assets'
 
 const FEATURES = [
   {
@@ -115,10 +116,11 @@ export default function DAO() {
           className="flex justify-center mt-10"
         >
           <img
-            src="/assets/mokki-mascot.png"
+            src={ASSETS.mascot}
             alt={`${PROJECT.name} mascot`}
-            className="w-24 opacity-60 mascot-blend"
-            style={{ filter: 'drop-shadow(0 4px 16px rgba(255, 197, 61, 0.35))' }}
+            loading="lazy"
+            className="w-20 object-contain opacity-70"
+            style={{ filter: 'drop-shadow(0 4px 12px rgba(255,197,61,0.4))' }}
           />
         </motion.div>
       </div>

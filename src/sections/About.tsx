@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Users, Hammer, TrendingUp, Eye } from 'lucide-react'
 import { PROJECT } from '../config'
+import { ASSETS } from '../assets'
 
 const CARDS = [
   {
@@ -44,7 +45,7 @@ export default function About() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
-          {/* Mascot side */}
+          {/* Mascot — transparent PNG, no wrapper box */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -52,14 +53,18 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="flex-shrink-0 relative flex items-center justify-center"
           >
-            {/* Subtle glow */}
-            <div className="absolute inset-0 blur-3xl opacity-25 pointer-events-none"
-              style={{ background: 'radial-gradient(ellipse, #FFC53D 0%, transparent 70%)' }} />
+            <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse 65% 55% at 50% 55%, rgba(255,197,61,0.28) 0%, transparent 70%)',
+                filter: 'blur(24px)',
+              }}
+            />
             <img
-              src="/assets/mokki-mascot.png"
+              src={ASSETS.mascot}
               alt="MOKKI DAO mascot"
-              className="relative w-64 sm:w-80 lg:w-96 drop-shadow-2xl mascot-blend"
-              style={{ filter: 'drop-shadow(0 10px 30px rgba(255, 197, 61, 0.3))' }}
+              loading="lazy"
+              className="relative w-56 sm:w-72 lg:w-80 object-contain"
+              style={{ filter: 'drop-shadow(0 12px 28px rgba(242,140,40,0.38)) saturate(1.05)' }}
             />
           </motion.div>
 

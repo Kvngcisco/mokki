@@ -2,15 +2,16 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Download, Share2, Heart, Send, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react'
 import { SOCIALS } from '../config'
+import { ASSETS } from '../assets'
 import toast from 'react-hot-toast'
 
 const MEMES = [
-  { id: 1, src: '/assets/mokki-logo.png', caption: 'MOKKI to the moon! 🚀',        category: 'bullish'   },
-  { id: 2, src: '/assets/mokki-logo.png', caption: 'Community is everything 🤝',    category: 'community' },
-  { id: 3, src: '/assets/mokki-logo.png', caption: '0 / 0 tax — why pay more? 💰', category: 'bullish'   },
-  { id: 4, src: '/assets/mokki-logo.png', caption: 'DAO governance loading… 🏛️',   category: 'dao'       },
-  { id: 5, src: '/assets/mokki-logo.png', caption: 'HODL strong 💎🤲',              category: 'bullish'   },
-  { id: 6, src: '/assets/mokki-logo.png', caption: 'Welcome to the herd! 🐂',       category: 'community' },
+  { id: 1, src: ASSETS.logoFull, caption: 'MOKKI to the moon! 🚀',        category: 'bullish'   },
+  { id: 2, src: ASSETS.mascot,   caption: 'Community is everything 🤝',    category: 'community' },
+  { id: 3, src: ASSETS.logoFull, caption: '0 / 0 tax — why pay more? 💰', category: 'bullish'   },
+  { id: 4, src: ASSETS.mascot,   caption: 'DAO governance loading… 🏛️',   category: 'dao'       },
+  { id: 5, src: ASSETS.logoFull, caption: 'HODL strong 💎🤲',              category: 'bullish'   },
+  { id: 6, src: ASSETS.mascot,   caption: 'Welcome to the herd! 🐂',       category: 'community' },
 ]
 
 const CATEGORIES = ['all', 'bullish', 'community', 'dao']

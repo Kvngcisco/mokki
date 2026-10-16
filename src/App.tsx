@@ -19,6 +19,7 @@ import Community from './sections/Community'
 import FAQ from './sections/FAQ'
 import Footer from './sections/Footer'
 import { PROJECT, TOKEN, SOCIALS } from './config'
+import { ASSETS } from './assets'
 
 export default function App() {
   const [loaded, setLoaded] = useState(false)
@@ -31,16 +32,18 @@ export default function App() {
         <meta property="og:title" content={`${PROJECT.name} (${PROJECT.ticker})`} />
         <meta property="og:description" content={PROJECT.tagline} />
         <meta property="og:url" content={`https://${PROJECT.domain}`} />
-        <meta property="og:image" content={`https://${PROJECT.domain}/assets/mokki-logo.png`} />
+        <meta property="og:image" content={`https://${PROJECT.domain}/assets/logo-full.png`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@mokkicoin" />
         <link rel="canonical" href={`https://${PROJECT.domain}`} />
+        <link rel="icon" type="image/png" href={ASSETS.logoIcon} />
+        <link rel="apple-touch-icon" href={ASSETS.logoIcon} />
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'Organization',
           name: PROJECT.name,
           url: `https://${PROJECT.domain}`,
-          logo: `https://${PROJECT.domain}/assets/mokki-logo.png`,
+          logo: `https://${PROJECT.domain}${ASSETS.logoIcon}`,
           description: PROJECT.shortDescription,
           sameAs: [
             SOCIALS.twitter,

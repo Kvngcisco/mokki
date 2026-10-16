@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Copy, ExternalLink, Send } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { PROJECT, TOKEN, SOCIALS } from '../config'
+import { ASSETS } from '../assets'
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
@@ -31,9 +32,15 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-gold/30">
-                <img src="/assets/mokki-logo.png" alt="MOKKI" className="w-full h-full object-contain bg-[#1a1025]" />
-              </div>
+              {/* Logo icon — no box, transparent PNG */}
+              <img
+                src={ASSETS.logoIcon}
+                alt="MOKKI DAO"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain"
+                style={{ filter: 'drop-shadow(0 2px 8px rgba(255,197,61,0.4))' }}
+              />
               <div>
                 <p className="font-display font-bold text-gold text-lg">{PROJECT.name}</p>
                 <p className="text-xs text-cream/40">{PROJECT.ticker} · BSC Chain</p>

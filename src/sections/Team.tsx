@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Shield } from 'lucide-react'
 import { TRUST, PROJECT } from '../config'
+import { ASSETS } from '../assets'
 
 export default function Team() {
   return (
@@ -58,12 +59,13 @@ export default function Team() {
         >
           <div className="text-center">
             <motion.img
-              src="/assets/mokki-mascot.png"
+              src={ASSETS.mascot}
               alt={`${PROJECT.name} mascot`}
-              className="w-36 mx-auto mb-3 mascot-blend"
+              loading="lazy"
+              className="w-28 mx-auto mb-3 object-contain"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ filter: 'drop-shadow(0 8px 24px rgba(255, 197, 61, 0.35))' }}
+              style={{ filter: 'drop-shadow(0 8px 20px rgba(255,197,61,0.4))' }}
             />
             <p className="text-cream/40 text-sm">The community IS the team.</p>
           </div>

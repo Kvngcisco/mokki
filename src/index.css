@@ -170,3 +170,58 @@ html.light .mascot-blend {
   /* On light bg: multiply blends white areas into the background */
   mix-blend-mode: multiply;
 }
+
+
+/* ── Hero mascot responsive sizing ──────────────────────────────────────── */
+.hero-mascot-wrap {
+  /* overlap bottom of hero by 20px for layered feel */
+  margin-bottom: -20px;
+}
+
+.hero-mascot {
+  width: min(88vw, 360px);
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Tablet portrait 768px+ */
+@media (min-width: 768px) {
+  .hero-mascot { width: 380px; }
+}
+
+/* Laptop 1024px+ */
+@media (min-width: 1024px) {
+  .hero-mascot { width: 440px; }
+  .hero-mascot-wrap { margin-bottom: -20px; }
+}
+
+/* Desktop 1280px+ */
+@media (min-width: 1280px) {
+  .hero-mascot { width: clamp(480px, 42vw, 640px); }
+}
+
+/* ── Badge cards — never cover mascot face ───────────────────────────────── */
+.badge-card {
+  z-index: 10;
+}
+
+/* ── Particles — disable under prefers-reduced-motion ───────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-particles { display: none; }
+  .hero-mascot { animation: none !important; }
+}
+
+/* ── Light mode mascot drop-shadow swap ──────────────────────────────────── */
+html.light .hero-mascot {
+  filter:
+    drop-shadow(0 0 2px rgba(196, 120, 10, 0.5))
+    drop-shadow(0 16px 32px rgba(196, 120, 10, 0.3))
+    saturate(1.05)
+    contrast(1.02) !important;
+}
+
+html.light .hero-mascot-wrap > div:first-child {
+  background: radial-gradient(ellipse 70% 60% at 55% 55%, rgba(255,197,61,0.22) 0%, rgba(242,140,40,0.1) 50%, transparent 75%) !important;
+}

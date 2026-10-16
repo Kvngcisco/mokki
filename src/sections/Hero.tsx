@@ -3,49 +3,37 @@ import { motion } from 'framer-motion'
 import { Copy, ExternalLink, ShoppingCart, BarChart2, Send } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { PROJECT, TOKEN, SOCIALS } from '../config'
+import { ASSETS } from '../assets'
 
-const WORDS = PROJECT.tagline.split(' ')
-
+/* ─── Floating coins / sparkles ──────────────────────────────────────────── */
 function Particles() {
-  const count = 18
+  const items = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    size: 4 + Math.random() * 9,
+    x: Math.random() * 100,
+    delay: Math.random() * 7,
+    dur: 6 + Math.random() * 9,
+    color: i % 3 === 0 ? '#FFC53D' : i % 3 === 1 ? '#F28C28' : '#3B6BFF',
+    opacity: 0.35 + Math.random() * 0.45,
+  }))
+
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: count }).map((_, i) => {
-        const size = 4 + Math.random() * 8
-        const x = Math.random() * 100
-        const delay = Math.random() * 6
-        const dur = 6 + Math.random() * 8
-        return (
-          <motion.div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              width: size,
-              height: size,
-              left: `${x}%`,
-              bottom: '-10%',
-              background: i % 3 === 0 ? '#FFC53D' : i % 3 === 1 ? '#F28C28' : '#3B6BFF',
-              opacity: 0.4 + Math.random() * 0.4,
-            }}
-            animate={{
-              y: [0, -(400 + Math.random() * 400)],
-              x: [0, (Math.random() - 0.5) * 100],
-              opacity: [0, 0.7, 0],
-              scale: [0, 1, 0.5],
-            }}
-            transition={{
-              duration: dur,
-              delay,
-              repeat: Infinity,
-              ease: 'easeOut',
-            }}
-          />
-        )
-      })}
+    /* hidden under prefers-reduced-motion via CSS class */
+    <div className="motion-safe-particles absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      {items.map(p => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{ width: p.size, height: p.size, left: `${p.x}%`, bottom: '-8%', background: p.color, opacity: p.opacity }}
+          animate={{ y: [0, -(380 + Math.random() * 420)], x: [0, (Math.random() - 0.5) * 120], opacity: [0, p.opacity, 0], scale: [0, 1, 0.4] }}
+          transition={{ duration: p.dur, delay: p.delay, repeat: Infinity, ease: 'easeOut' }}
+        />
+      ))}
     </div>
   )
 }
 
+/* ─── Hero ────────────────────────────────────────────────────────────────── */
 export default function Hero() {
   const contractRef = useRef<HTMLSpanElement>(null)
 
@@ -59,20 +47,28 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center pt-16 overflow-hidden"
     >
-      {/* Background glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-10 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #FFC53D 0%, transparent 70%)' }} />
-      <div className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full opacity-8 blur-3xl pointer-events-none"
-        style={{ background: '#3B6BFF' }} />
+      {/* ── Background glows ─────────────────────────────────────────────── */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full pointer-events-none opacity-[0.07]"
+        style={{ background: 'radial-gradient(circle, #FFC53D 0%, transparent 70%)' }}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute top-1/3 left-1/4 w-80 h-80 rounded-full pointer-events-none blur-3xl opacity-[0.06]"
+        style={{ background: '#3B6BFF' }}
+      />
 
       <Particles />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      {/* ── Content grid ─────────────────────────────────────────────────── */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-4">
 
-          {/* Left: Text content */}
-          <div className="flex-1 text-center lg:text-left">
-            {/* Badge */}
+          {/* ── LEFT: text ────────────────────────────────────────────────── */}
+          <div className="flex-1 text-center lg:text-left lg:max-w-[55%]">
+
+            {/* Live badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -83,7 +79,7 @@ export default function Hero() {
               <span className="text-sm text-gold font-semibold">Live on BNB Smart Chain</span>
             </motion.div>
 
-            {/* Heading word-by-word */}
+            {/* Headline */}
             <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl leading-tight mb-4">
               <span className="block">
                 {['Built', 'for', 'the'].map((word, i) => (
@@ -124,47 +120,27 @@ export default function Hero() {
               {PROJECT.shortDescription}
             </motion.p>
 
-            {/* CTA Buttons */}
+            {/* CTA buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1 }}
               className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mb-8"
             >
-              <a
-                href={TOKEN.pancakeSwapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-gold"
-              >
+              <a href={TOKEN.pancakeSwapUrl} target="_blank" rel="noopener noreferrer" className="btn-gold">
                 <ShoppingCart className="w-4 h-4" />
                 Buy {PROJECT.ticker}
               </a>
-              <a
-                href={TOKEN.dexScreenerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline"
-              >
+              <a href={TOKEN.dexScreenerUrl} target="_blank" rel="noopener noreferrer" className="btn-outline">
                 <BarChart2 className="w-4 h-4" />
                 Live Chart
               </a>
-              <a
-                href={SOCIALS.telegram ?? '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline"
-              >
+              <a href={SOCIALS.telegram ?? '#'} target="_blank" rel="noopener noreferrer" className="btn-outline">
                 <Send className="w-4 h-4" />
                 Telegram
               </a>
-              <a
-                href={SOCIALS.twitter ?? '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline"
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <a href={SOCIALS.twitter ?? '#'} target="_blank" rel="noopener noreferrer" className="btn-outline">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
                 Follow on X
@@ -179,82 +155,84 @@ export default function Hero() {
               className="flex flex-col sm:flex-row items-center gap-2"
             >
               <span className="text-xs text-cream/40 uppercase tracking-wider whitespace-nowrap">Contract:</span>
-              <button
-                onClick={copyContract}
-                className="contract-bar flex-1 max-w-sm"
-                title="Click to copy contract address"
-              >
-                <span ref={contractRef} className="truncate text-xs">
-                  {TOKEN.contractAddress}
-                </span>
+              <button onClick={copyContract} className="contract-bar flex-1 max-w-sm" title="Click to copy contract address">
+                <span ref={contractRef} className="truncate text-xs">{TOKEN.contractAddress}</span>
                 <Copy className="w-3.5 h-3.5 text-gold flex-shrink-0" />
               </button>
-              <a
-                href={TOKEN.bscScanUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-gold hover:text-orange transition-colors whitespace-nowrap"
-              >
+              <a href={TOKEN.bscScanUrl} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1 text-xs text-gold hover:text-orange transition-colors whitespace-nowrap">
                 Verify on BscScan <ExternalLink className="w-3 h-3" />
               </a>
             </motion.div>
           </div>
 
-          {/* Right: Mascot */}
+          {/* ── RIGHT: mascot ─────────────────────────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.82 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.7, ease: 'easeOut' }}
-            className="relative flex-shrink-0 flex items-center justify-center"
+            transition={{ delay: 0.35, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-mascot-wrap relative flex-shrink-0 flex items-end justify-center"
           >
-            {/* Gold radial glow behind mascot */}
+            {/* Radial glow — 70% of mascot width, no box */}
             <motion.div
-              animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute inset-0 rounded-full blur-3xl pointer-events-none"
-              style={{
-                background: 'radial-gradient(ellipse, rgba(255,197,61,0.35) 0%, rgba(242,140,40,0.15) 50%, transparent 75%)',
-              }}
-            />
-            {/* Mascot image — floating */}
-            <motion.img
-              src="/assets/mokki-mascot.png"
-              alt="MOKKI DAO mascot"
-              className="relative w-72 sm:w-96 lg:w-[460px] drop-shadow-2xl mascot-blend"
-              animate={{ y: [0, -18, 0] }}
+              aria-hidden="true"
+              animate={{ scale: [1, 1.12, 1], opacity: [0.45, 0.75, 0.45] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute inset-0 pointer-events-none"
               style={{
-                filter: 'drop-shadow(0 20px 40px rgba(255, 197, 61, 0.4))',
+                background: 'radial-gradient(ellipse 70% 60% at 55% 55%, rgba(255,197,61,0.38) 0%, rgba(242,140,40,0.16) 50%, transparent 75%)',
+                filter: 'blur(28px)',
               }}
             />
 
-            {/* Floating stat chips */}
+            {/* Mascot — transparent PNG, no wrapper box */}
+            <motion.img
+              src={ASSETS.mascot}
+              alt="MOKKI DAO mascot — cheerful orange bull holding a cocktail"
+              loading="eager"
+              fetchPriority="high"
+              className="hero-mascot relative"
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              style={{
+                filter: [
+                  'drop-shadow(0 0 2px rgba(255,197,61,0.7))',
+                  'drop-shadow(0 20px 40px rgba(242,140,40,0.45))',
+                  'saturate(1.1)',
+                  'contrast(1.05)',
+                ].join(' '),
+              }}
+            />
+
+            {/* ── Floating stat badges — never cover the face ───────────── */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -24 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.5 }}
-              className="absolute -left-4 top-1/3 glass-card px-3 py-2 text-xs whitespace-nowrap"
+              transition={{ delay: 1.6 }}
+              className="badge-card absolute left-0 bottom-1/3 glass-card px-3 py-2 text-xs whitespace-nowrap"
             >
               <div className="text-cream/50">Tax</div>
-              <div className="font-bold text-lime">0 / 0</div>
+              <div className="font-bold text-lime text-sm">0 / 0</div>
             </motion.div>
+
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.7 }}
-              className="absolute -right-4 top-1/4 glass-card px-3 py-2 text-xs whitespace-nowrap"
+              transition={{ delay: 1.8 }}
+              className="badge-card absolute right-0 top-1/4 glass-card px-3 py-2 text-xs whitespace-nowrap"
             >
               <div className="text-cream/50">Ownership</div>
-              <div className="font-bold text-gold">Renounced ✓</div>
+              <div className="font-bold text-gold text-sm">Renounced ✓</div>
             </motion.div>
+
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.9 }}
-              className="absolute -bottom-2 left-1/2 -translate-x-1/2 glass-card px-3 py-2 text-xs whitespace-nowrap"
+              transition={{ delay: 2.0 }}
+              className="badge-card absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 glass-card px-3 py-2 text-xs whitespace-nowrap"
             >
               <div className="text-cream/50">Supply</div>
-              <div className="font-bold text-gold tabular-nums">1,000,000,000</div>
+              <div className="font-bold text-gold tabular-nums text-sm">1,000,000,000</div>
             </motion.div>
           </motion.div>
         </div>
@@ -264,8 +242,9 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        transition={{ delay: 2.4 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        aria-hidden="true"
       >
         <span className="text-xs text-cream/30 uppercase tracking-widest">Scroll</span>
         <motion.div

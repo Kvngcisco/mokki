@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ExternalLink, Send } from 'lucide-react'
 import { SOCIALS, PROJECT } from '../config'
+import { ASSETS } from '../assets'
 
 const SOCIALS_LIST = [
   {
@@ -55,12 +56,13 @@ export default function Community() {
         >
           <div className="p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
             <motion.img
-              src="/assets/mokki-mascot.png"
+              src={ASSETS.mascot}
               alt="MOKKI mascot"
-              className="w-36 flex-shrink-0 mascot-blend"
+              loading="lazy"
+              className="w-32 flex-shrink-0 object-contain"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ filter: 'drop-shadow(0 8px 20px rgba(255, 197, 61, 0.35))' }}
+              style={{ filter: 'drop-shadow(0 8px 18px rgba(255,197,61,0.4))' }}
             />
             <div className="flex-1">
               <h3 className="font-display font-bold text-2xl text-cream mb-2">

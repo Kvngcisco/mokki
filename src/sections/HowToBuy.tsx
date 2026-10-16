@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Wallet, ArrowDownUp, Plus, CheckCircle, ExternalLink } from 'lucide-react'
 import { TOKEN, PROJECT } from '../config'
+import { ASSETS } from '../assets'
 
 const STEPS = [
   {
@@ -139,7 +140,13 @@ export default function HowToBuy() {
           className="mt-8 text-center"
         >
           <div className="glass-card inline-flex flex-col sm:flex-row items-center gap-4 px-6 py-4">
-            <img src="/assets/mokki-mascot.png" alt="MOKKI" className="w-12 h-12 object-contain" />
+            <img
+              src={ASSETS.logoIcon}
+              alt="MOKKI DAO logo"
+              loading="lazy"
+              className="w-12 h-12 object-contain"
+              style={{ filter: 'drop-shadow(0 2px 8px rgba(255,197,61,0.4))' }}
+            />
             <div className="text-sm text-left">
               <p className="font-semibold text-cream">Add {PROJECT.ticker} to your wallet</p>
               <p className="text-cream/50 text-xs">Import the token using the contract address above</p>
