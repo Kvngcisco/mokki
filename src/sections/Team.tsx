@@ -58,9 +58,9 @@ export default function Team() {
         >
           <div className="text-center">
             <motion.img
-              src="/assets/mokki-logo.png"
+              src="/assets/mokki-mascot.png"
               alt={`${PROJECT.name} mascot`}
-              className="w-28 mx-auto mb-3"
+              className="w-36 mx-auto mb-3 mascot-blend"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               style={{ filter: 'drop-shadow(0 8px 24px rgba(255, 197, 61, 0.35))' }}

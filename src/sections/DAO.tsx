@@ -115,10 +115,10 @@ export default function DAO() {
           className="flex justify-center mt-10"
         >
           <img
-            src="/assets/mokki-logo.png"
+            src="/assets/mokki-mascot.png"
             alt={`${PROJECT.name} mascot`}
-            className="w-20 opacity-40"
-            style={{ filter: 'drop-shadow(0 4px 16px rgba(255, 197, 61, 0.3))' }}
+            className="w-24 opacity-60 mascot-blend"
+            style={{ filter: 'drop-shadow(0 4px 16px rgba(255, 197, 61, 0.35))' }}
           />
         </motion.div>
       </div>

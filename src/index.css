@@ -160,3 +160,13 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Mascot blend helpers */
+.mascot-blend {
+  /* On dark bg: multiply removes any residual white fringe */
+  mix-blend-mode: normal;
+}
+html.light .mascot-blend {
+  /* On light bg: multiply blends white areas into the background */
+  mix-blend-mode: multiply;
+}

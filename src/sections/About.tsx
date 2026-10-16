@@ -50,15 +50,16 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex-shrink-0 relative"
+            className="flex-shrink-0 relative flex items-center justify-center"
           >
-            <div className="absolute inset-0 blur-3xl opacity-30"
-              style={{ background: 'radial-gradient(circle, #FFC53D, transparent)' }} />
+            {/* Subtle glow */}
+            <div className="absolute inset-0 blur-3xl opacity-25 pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse, #FFC53D 0%, transparent 70%)' }} />
             <img
-              src="/assets/mokki-logo.png"
+              src="/assets/mokki-mascot.png"
               alt="MOKKI DAO mascot"
-              className="relative w-56 sm:w-72 lg:w-80 drop-shadow-2xl"
-              style={{ filter: 'drop-shadow(0 10px 30px rgba(255, 197, 61, 0.25))' }}
+              className="relative w-64 sm:w-80 lg:w-96 drop-shadow-2xl mascot-blend"
+              style={{ filter: 'drop-shadow(0 10px 30px rgba(255, 197, 61, 0.3))' }}
             />
           </motion.div>
 

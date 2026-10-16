@@ -139,7 +139,7 @@ export default function HowToBuy() {
           className="mt-8 text-center"
         >
           <div className="glass-card inline-flex flex-col sm:flex-row items-center gap-4 px-6 py-4">
-            <img src="/assets/mokki-logo.png" alt="MOKKI" className="w-10 h-10 rounded-full" />
+            <img src="/assets/mokki-mascot.png" alt="MOKKI" className="w-12 h-12 object-contain" />
             <div className="text-sm text-left">
               <p className="font-semibold text-cream">Add {PROJECT.ticker} to your wallet</p>
               <p className="text-cream/50 text-xs">Import the token using the contract address above</p>

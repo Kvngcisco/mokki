@@ -55,12 +55,12 @@ export default function Community() {
         >
           <div className="p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
             <motion.img
-              src="/assets/mokki-logo.png"
+              src="/assets/mokki-mascot.png"
               alt="MOKKI mascot"
-              className="w-28 flex-shrink-0"
+              className="w-36 flex-shrink-0 mascot-blend"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ filter: 'drop-shadow(0 8px 20px rgba(255, 197, 61, 0.3))' }}
+              style={{ filter: 'drop-shadow(0 8px 20px rgba(255, 197, 61, 0.35))' }}
             />
             <div className="flex-1">
               <h3 className="font-display font-bold text-2xl text-cream mb-2">

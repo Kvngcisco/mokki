@@ -205,23 +205,27 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.7, ease: 'easeOut' }}
-            className="relative flex-shrink-0"
+            className="relative flex-shrink-0 flex items-center justify-center"
           >
-            {/* Glow ring behind mascot */}
+            {/* Gold radial glow behind mascot */}
             <motion.div
-              animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.9, 0.5] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute inset-0 rounded-full blur-3xl"
-              style={{ background: 'radial-gradient(circle, #FFC53D55, #F28C2833, transparent)' }}
+              animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute inset-0 rounded-full blur-3xl pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse, rgba(255,197,61,0.35) 0%, rgba(242,140,40,0.15) 50%, transparent 75%)',
+              }}
             />
             {/* Mascot image — floating */}
             <motion.img
-              src="/assets/mokki-logo.png"
+              src="/assets/mokki-mascot.png"
               alt="MOKKI DAO mascot"
-              className="relative w-64 sm:w-80 lg:w-[360px] drop-shadow-2xl"
+              className="relative w-72 sm:w-96 lg:w-[460px] drop-shadow-2xl mascot-blend"
               animate={{ y: [0, -18, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ filter: 'drop-shadow(0 20px 40px rgba(255, 197, 61, 0.3))' }}
+              style={{
+                filter: 'drop-shadow(0 20px 40px rgba(255, 197, 61, 0.4))',
+              }}
             />
 
             {/* Floating stat chips */}
