@@ -5,12 +5,12 @@ import { SOCIALS } from '../config'
 import toast from 'react-hot-toast'
 
 const MEMES = [
-  { id: 1, src: '/assets/mokki-logo.png',  caption: 'MOKKI to the moon! 🚀',          category: 'bullish'   },
-  { id: 2, src: '/assets/mokki-logo2.png', caption: 'Community is everything 🤝',       category: 'community' },
-  { id: 3, src: '/assets/mokki-logo.png',  caption: '0 / 0 tax — why pay more? 💰',    category: 'bullish'   },
-  { id: 4, src: '/assets/mokki-logo2.png', caption: 'DAO governance loading… 🏛️',      category: 'dao'       },
-  { id: 5, src: '/assets/mokki-logo.png',  caption: 'HODL strong 💎🤲',                category: 'bullish'   },
-  { id: 6, src: '/assets/mokki-logo2.png', caption: 'Welcome to the herd! 🐂',          category: 'community' },
+  { id: 1, src: '/assets/mokki-logo.png', caption: 'MOKKI to the moon! 🚀',        category: 'bullish'   },
+  { id: 2, src: '/assets/mokki-logo.png', caption: 'Community is everything 🤝',    category: 'community' },
+  { id: 3, src: '/assets/mokki-logo.png', caption: '0 / 0 tax — why pay more? 💰', category: 'bullish'   },
+  { id: 4, src: '/assets/mokki-logo.png', caption: 'DAO governance loading… 🏛️',   category: 'dao'       },
+  { id: 5, src: '/assets/mokki-logo.png', caption: 'HODL strong 💎🤲',              category: 'bullish'   },
+  { id: 6, src: '/assets/mokki-logo.png', caption: 'Welcome to the herd! 🐂',       category: 'community' },
 ]
 
 const CATEGORIES = ['all', 'bullish', 'community', 'dao']

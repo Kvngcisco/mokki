@@ -53,8 +53,7 @@ Update `src/config.ts` with any of the items below when ready.
 - [ ] GitHub org URL — add to `SOCIALS.github`
 
 ### Assets
-- [ ] Place `mokki-logo.png` in `/public/assets/` (main logo, white bg)
-- [ ] Place `mokki-logo2.png` in `/public/assets/` (gold swirl variant)
+- [x] `mokki-logo.png` placed in `/public/assets/` ✅ (gold swirl version — used everywhere)
 - [ ] Add real meme images to `/public/memes/`
 
 ### Technical

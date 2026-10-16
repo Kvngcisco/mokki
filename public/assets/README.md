@@ -1,10 +1,7 @@
 # MOKKI DAO Assets
 
-Place these files here:
+## Logo / Mascot
 
-- `mokki-logo.png` — Main mascot/logo (the orange bull with gold glasses, cocktail — version 1 on white bg)
-- `mokki-logo2.png` — Second mascot variant (the gold swirl version)
+- `mokki-logo.png` — The official MOKKI DAO mascot and logo (orange bull, gold glasses, cocktail, gold coin background with swirl). Used everywhere: navbar, hero, about, loading screen, footer, meme gallery.
 
-These are referenced throughout the site as `/assets/mokki-logo.png` and `/assets/mokki-logo2.png`.
-
-Save the two images you uploaded in chat directly into this folder with those filenames.
+This is the only image needed. All site references point to `/assets/mokki-logo.png`.

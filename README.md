@@ -66,11 +66,9 @@ Connect your GitHub repo in the Cloudflare Pages dashboard.
 Build command: `npm run build`
 Output directory: `dist`
 
-## Adding Logo Images
+## Adding the Logo
 
-Place your two mascot images in `/public/assets/`:
-- `mokki-logo.png` — main logo (used in hero, navbar, footer)
-- `mokki-logo2.png` — alternate variant (used in meme gallery)
+Place `mokki-logo.png` in `/public/assets/` — this is used everywhere (navbar, hero, footer, about, loading screen, meme gallery). One image, used consistently throughout.
 
 ## Adding Memes
 
