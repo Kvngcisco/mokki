@@ -174,7 +174,6 @@ html.light .mascot-blend {
 
 /* ── Hero mascot responsive sizing ──────────────────────────────────────── */
 .hero-mascot-wrap {
-  /* overlap bottom of hero by 20px for layered feel */
   margin-bottom: -20px;
 }
 
@@ -225,3 +224,301 @@ html.light .hero-mascot {
 html.light .hero-mascot-wrap > div:first-child {
   background: radial-gradient(ellipse 70% 60% at 55% 55%, rgba(255,197,61,0.22) 0%, rgba(242,140,40,0.1) 50%, transparent 75%) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HERO — MOBILE POSTER LAYOUT  (< 768px)
+   Mascot fills the top, content overlaps the belly with a dark scrim.
+   Nothing below changes at 768px and above.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Section container ───────────────────────────────────────────────────── */
+.hero-section {
+  /* min-height = full viewport; let content grow beyond on small phones */
+  min-height: 100svh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: calc(var(--nav-h, 64px) + var(--ticker-h, 40px));
+  overflow-x: hidden;
+}
+
+/* ── Mobile: stack mascot then content ───────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* Outer wrappers go full width, stacked */
+  .hero-mascot-outer,
+  .hero-content-outer {
+    width: 100%;
+    position: relative;
+  }
+
+  /* Mascot block: centered, top of stack */
+  .hero-mascot-outer {
+    display: flex;
+    justify-content: center;
+    /* extra top breathing room so face clears navbar */
+    padding-top: 8px;
+    z-index: 1;
+  }
+
+  .hero-mascot-wrap {
+    /* no negative bottom margin on mobile — handled by content overlap */
+    margin-bottom: 0;
+  }
+
+  /* Mascot itself: big and bold */
+  .hero-mascot {
+    width: min(92vw, 380px);
+    height: auto;
+    max-height: 62vh;
+    object-fit: contain;
+    display: block;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Float & particles off under reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-mascot { animation: none !important; }
+    .motion-safe-particles { display: none; }
+  }
+
+  /* Floating badges: HIDDEN on mobile — shown as chips row instead */
+  .hero-badge {
+    display: none !important;
+  }
+
+  /* ── Content block: overlaps mascot belly ───────────────────────────── */
+  .hero-content-outer {
+    /* Pull up over the mascot by ~80px (≈ 20-22% of mascot height) */
+    margin-top: -80px;
+    z-index: 3;
+    position: relative;
+  }
+
+  /* Scrim: gradient from transparent → page bg, covers belly not face */
+  .hero-scrim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* height covers overlap zone + some content */
+    height: 140px;
+    background: linear-gradient(to bottom, transparent 0%, #0B0B14 45%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  html.light .hero-scrim {
+    background: linear-gradient(to bottom, transparent 0%, #FFF6E5 45%);
+  }
+
+  /* Content padding */
+  .hero-content-inner {
+    padding: 0 16px 32px;
+  }
+
+  /* ── Headline size ────────────────────────────────────────────────────── */
+  .hero-headline {
+    font-size: clamp(2.2rem, 9vw, 2.8rem);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  /* Text shadow for readability over the scrim */
+  .hero-headline-text-shadow {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  }
+  html.light .hero-headline-text-shadow {
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
+  }
+
+  /* ── Description ─────────────────────────────────────────────────────── */
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    /* AA contrast: cream/80 on the dark scrim is fine in dark mode */
+  }
+  html.light .hero-desc {
+    color: #5a3a1a; /* dark brown, AA against cream */
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────────────────── */
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* Buy & Follow on X: full width pill */
+  .hero-btn-primary {
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    border-radius: 9999px;
+  }
+
+  /* Middle row: Chart + Telegram side by side */
+  .hero-btn-row {
+    display: flex;
+    gap: 10px;
+  }
+  .hero-btn-row .btn-outline {
+    min-height: 48px;
+    padding: 0 16px;
+  }
+
+  /* ── Chips row (replaces floating badges) ────────────────────────────── */
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 0;
+    /* shown only on mobile */
+  }
+
+  .hero-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 197, 61, 0.08);
+    border: 1px solid rgba(255, 197, 61, 0.25);
+    border-radius: 9999px;
+    padding: 5px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  html.light .hero-chip {
+    background: rgba(242, 140, 40, 0.08);
+    border-color: rgba(242, 140, 40, 0.3);
+  }
+
+  .hero-chip-label {
+    color: rgba(255, 246, 229, 0.5);
+    font-size: 11px;
+  }
+  html.light .hero-chip-label {
+    color: rgba(58, 36, 16, 0.55);
+  }
+
+} /* end @media (max-width: 767px) */
+
+
+/* ── 768px and above: desktop/tablet layout ─────────────────────────────── */
+@media (min-width: 768px) {
+
+  /* Reset mobile-only structures — use the normal flex layout */
+  .hero-section {
+    /* Centre content vertically like before */
+    justify-content: center;
+    padding-top: 64px; /* just nav height */
+  }
+
+  .hero-mascot-outer,
+  .hero-content-outer {
+    /* Both are inside the relative z-10 wrapper.
+       On desktop they sit side-by-side via the lg:flex-row on the inner div.
+       We only need to make sure the wrappers don't add extra structure. */
+    width: 100%;
+  }
+
+  /* Scrim: hidden above mobile */
+  .hero-scrim { display: none; }
+
+  /* Chips row: hidden above mobile (floating badges shown instead) */
+  .hero-chips { display: none; }
+
+  /* Floating badges: visible again */
+  .hero-badge { display: block !important; }
+
+  /* Headline: restore desktop size */
+  .hero-headline {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1;
+  }
+
+  .hero-headline-text-shadow {
+    text-shadow: none;
+  }
+
+  .hero-desc {
+    font-size: 1.125rem; /* 18px */
+  }
+  html.light .hero-desc {
+    color: inherit;
+  }
+
+  /* Buttons: revert to inline-flex wrap */
+  .hero-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: auto;
+    justify-content: center;
+  }
+
+  .hero-btn-primary {
+    width: auto;
+    display: inline-flex;
+  }
+
+  .hero-btn-row {
+    display: contents; /* children participate in the parent flex directly */
+  }
+  .hero-btn-row .btn-outline {
+    min-height: auto;
+    padding: 12px 24px;
+  }
+
+  /* Content inner: restore max-width container padding */
+  .hero-content-inner {
+    padding: 0 24px;
+  }
+
+  /* No overlap margin on desktop */
+  .hero-content-outer {
+    margin-top: 0;
+  }
+
+  .hero-mascot-wrap {
+    margin-bottom: -20px;
+  }
+
+} /* end @media (min-width: 768px) */
+
+
+/* ── At lg (1024px): side-by-side flex row ───────────────────────────────── */
+@media (min-width: 1024px) {
+
+  .hero-section > div.relative.z-10 {
+    display: flex;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 32px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: calc(100vh - 104px);
+  }
+
+  .hero-mascot-outer {
+    /* Right column */
+    order: 2;
+    flex: 0 0 auto;
+  }
+
+  .hero-content-outer {
+    /* Left column */
+    order: 1;
+    flex: 1 1 0;
+    max-width: 55%;
+  }
+
+  .hero-buttons {
+    justify-content: flex-start;
+  }
+
+} /* end @media (min-width: 1024px) */
