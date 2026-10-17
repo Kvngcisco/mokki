@@ -34,10 +34,11 @@
   }
 
   html.light body {
-    @apply bg-cream text-[#3A2410];
+    background-color: #12131F;
+    color: #F0EDE8;
     background-image:
-      radial-gradient(ellipse at 20% 10%, rgba(255, 197, 61, 0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(242, 140, 40, 0.08) 0%, transparent 50%);
+      radial-gradient(ellipse at 20% 10%, rgba(255, 197, 61, 0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(242, 140, 40, 0.05) 0%, transparent 50%);
   }
 
   /* Noise texture overlay */
@@ -69,8 +70,9 @@
     @apply transition-all duration-300;
   }
   html.light .glass-card {
-    @apply bg-white/80 border-[#FFC53D33];
-    box-shadow: 0 4px 24px rgba(242, 140, 40, 0.08);
+    background: rgba(30, 31, 50, 0.85);
+    border-color: rgba(255, 197, 61, 0.2);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
   }
 
   /* Gradient border card */
@@ -110,7 +112,12 @@
     @apply transition-all duration-300 hover:scale-105 active:scale-95;
   }
   html.light .btn-outline {
-    @apply border-orange/60 text-orange hover:bg-orange/10;
+    border-color: rgba(255, 197, 61, 0.5);
+    color: #FFC53D;
+  }
+  html.light .btn-outline:hover {
+    background: rgba(255, 197, 61, 0.1);
+    border-color: #FFC53D;
   }
 
   /* Section heading */
@@ -148,7 +155,9 @@
     @apply hover:border-gold/40 transition-colors duration-200;
   }
   html.light .contract-bar {
-    @apply bg-white border-[#FFC53D44] text-[#3A2410]/70;
+    background: rgba(30, 31, 50, 0.85);
+    border-color: rgba(255, 197, 61, 0.2);
+    color: rgba(240, 237, 232, 0.7);
   }
 }
 
@@ -222,7 +231,7 @@ html.light .hero-mascot {
 }
 
 html.light .hero-mascot-wrap > div:first-child {
-  background: radial-gradient(ellipse 70% 60% at 55% 55%, rgba(255,197,61,0.22) 0%, rgba(242,140,40,0.1) 50%, transparent 75%) !important;
+  background: radial-gradient(ellipse 70% 60% at 55% 55%, rgba(255,197,61,0.28) 0%, rgba(242,140,40,0.12) 50%, transparent 75%) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -310,7 +319,7 @@ html.light .hero-mascot-wrap > div:first-child {
   }
 
   html.light .hero-scrim {
-    background: linear-gradient(to bottom, transparent 0%, #FFF6E5 45%);
+    background: linear-gradient(to bottom, transparent 0%, #12131F 45%);
   }
 
   /* Content padding */
@@ -330,7 +339,7 @@ html.light .hero-mascot-wrap > div:first-child {
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
   }
   html.light .hero-headline-text-shadow {
-    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
   }
 
   /* ── Description ─────────────────────────────────────────────────────── */
@@ -447,7 +456,7 @@ html.light .hero-mascot-wrap > div:first-child {
     font-size: 1.125rem; /* 18px */
   }
   html.light .hero-desc {
-    color: inherit;
+    color: rgba(240, 237, 232, 0.75);
   }
 
   /* Buttons: revert to inline-flex wrap */
@@ -543,11 +552,11 @@ html.light .hero-mascot-wrap > div:first-child {
   --mobile-hero-sub: rgba(255, 246, 229, 0.72);
 }
 
-/* Light mode token overrides */
+/* Light mode token overrides — deep slate background, near-white text */
 html.light {
-  --mobile-hero-bg: #FFF6E5;
-  --mobile-hero-heading: #2C1A06;
-  --mobile-hero-sub: rgba(58, 36, 16, 0.72);
+  --mobile-hero-bg: #12131F;
+  --mobile-hero-heading: #F0EDE8;
+  --mobile-hero-sub: rgba(240, 237, 232, 0.70);
 }
 
 /* ── Mobile stat glass card ───────────────────────────────────────────────── */
@@ -605,54 +614,42 @@ html.light .mobile-stat-card p:last-child {
   }
 
   html.light .site-navbar {
-    border-bottom-color: rgba(242, 140, 40, 0.25) !important;
+    border-bottom-color: rgba(255, 197, 61, 0.22) !important;
+    background-color: rgba(18, 19, 31, 0.92) !important;
   }
 
   /* ── Light mode hero background ─────────────────────────────────────── */
   html.light section#hero {
-    background: var(--mobile-hero-bg) !important;
+    background: #12131F !important;
   }
 
-  /* ── Community gradient — darker orange in light mode ──────────────── */
+  /* ── Community gradient — slightly warmer gold on slate ────────────── */
   html.light .mobile-hero-community {
-    background: linear-gradient(135deg, #C98A12 0%, #A6541A 100%) !important;
+    background: linear-gradient(135deg, #FFD166 0%, #F28C28 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
-    filter: drop-shadow(0 0 8px rgba(196, 120, 10, 0.3)) !important;
+    filter: drop-shadow(0 0 10px rgba(255, 197, 61, 0.45)) !important;
   }
 
-  /* ── Light mode contract card ───────────────────────────────────────── */
-  html.light section#hero .rounded-2xl[style*="rgba(16,16,26"] {
-    background: rgba(255, 255, 255, 0.88) !important;
-    border-color: rgba(242, 140, 40, 0.3) !important;
+  /* ── Light mode stat card ────────────────────────────────────────────── */
+  html.light .mobile-stat-card {
+    background: rgba(30, 31, 50, 0.85) !important;
+    border-color: rgba(255, 197, 61, 0.22) !important;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25) !important;
   }
 
-  /* ── Light mode trust chips ─────────────────────────────────────────── */
-  html.light section#hero span[style*="rgba(139,212,80"] {
-    background: rgba(60, 140, 20, 0.08) !important;
-    border-color: rgba(60, 140, 20, 0.3) !important;
-    color: #3a7a10 !important;
+  html.light .mobile-stat-card p:first-child {
+    color: rgba(240, 237, 232, 0.45) !important;
   }
 
-  /* ── Light mode buttons ─────────────────────────────────────────────── */
-  html.light section#hero a[style*="rgba(255,197,61,0.4)"] {
-    border-color: rgba(196, 120, 10, 0.5) !important;
-    color: #9A6010 !important;
+  html.light .mobile-stat-card p:last-child {
+    color: #F0EDE8 !important;
   }
 
-  html.light section#hero a[style*="rgba(255,197,61,0.4)"]:hover {
-    background: rgba(196, 120, 10, 0.08) !important;
-  }
-
-  /* ── Light mode stat card value text fix ─────────────────────────────── */
-  html.light .mobile-stat-card p {
-    color: #2C1A06;
-  }
-
-  /* ── Dot pattern in light mode ──────────────────────────────────────── */
+  /* ── Dot pattern on slate ────────────────────────────────────────────── */
   html.light section#hero > div:first-child {
-    background-image: radial-gradient(circle, rgba(196, 120, 10, 0.1) 1px, transparent 1px) !important;
+    background-image: radial-gradient(circle, rgba(255, 197, 61, 0.09) 1px, transparent 1px) !important;
   }
 
 } /* end @media (max-width: 767px) */
