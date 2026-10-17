@@ -1,5 +1,6 @@
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { TrendingUp, TrendingDown, RefreshCw, Clock, AlertCircle } from 'lucide-react'
+import { TrendingUp, TrendingDown, RefreshCw, Clock, AlertCircle, BarChart2 } from 'lucide-react'
 import { useMarketData } from '../hooks/useMarketData'
 import { TOKEN } from '../config'
 
@@ -75,6 +76,76 @@ function ChangeCard({ label, val, loading }: { label: string; val: number | null
   )
 }
 
+/* ── Lazy chart: only mounts the iframe after the user clicks or
+   the container has been visible for 2 s (whichever comes first) ────────── */
+function LazyChart() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [loaded, setLoaded] = useState(false)
+  const [iframeReady, setIframeReady] = useState(false)
+
+  // Auto-load after 2 s of visibility
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    let timer: ReturnType<typeof setTimeout>
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          timer = setTimeout(() => setLoaded(true), 2000)
+        } else {
+          clearTimeout(timer)
+        }
+      },
+      { threshold: 0.2 },
+    )
+    obs.observe(el)
+    return () => { obs.disconnect(); clearTimeout(timer) }
+  }, [])
+
+  const src = `https://dexscreener.com/bsc/${TOKEN.contractAddress}?embed=1&theme=dark&trades=0&info=0`
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full rounded-2xl overflow-hidden border border-dark-border"
+      style={{ height: 420 }}
+    >
+      {/* Placeholder shown until iframe is requested */}
+      {!loaded && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-dark-card/60 backdrop-blur-sm">
+          <BarChart2 className="w-10 h-10 text-gold/40" />
+          <p className="text-sm text-cream/50">Live chart</p>
+          <button
+            onClick={() => setLoaded(true)}
+            className="btn-gold text-xs px-5 py-2"
+          >
+            Load Chart
+          </button>
+        </div>
+      )}
+
+      {/* Spinner while iframe is loading */}
+      {loaded && !iframeReady && (
+        <div className="absolute inset-0 flex items-center justify-center bg-dark-card/60 backdrop-blur-sm pointer-events-none">
+          <RefreshCw className="w-6 h-6 text-gold animate-spin" />
+        </div>
+      )}
+
+      {/* Iframe — only inserted into the DOM once loaded is true */}
+      {loaded && (
+        <iframe
+          src={src}
+          title="MOKKI DAO Live Chart"
+          className="w-full h-full"
+          style={{ border: 'none', display: 'block' }}
+          onLoad={() => setIframeReady(true)}
+        />
+      )}
+    </div>
+  )
+}
+
 export default function MarketStats() {
   const { data, loading, error, isStale, refresh } = useMarketData()
 
@@ -141,11 +212,7 @@ export default function MarketStats() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3"
         >
-          <StatItem
-            label="Price"
-            value={fmtPrice(data.price)}
-            loading={loading}
-          />
+          <StatItem label="Price" value={fmtPrice(data.price)} loading={loading} />
           <ChangeCard label="1h Change" val={data.priceChange1h} loading={loading} />
           <ChangeCard label="24h Change" val={data.priceChange24h} loading={loading} />
           <StatItem label="Market Cap" value={fmt(data.marketCap)} loading={loading} />
@@ -178,22 +245,15 @@ export default function MarketStats() {
           </div>
         </motion.div>
 
-        {/* DexScreener chart embed */}
+        {/* DexScreener chart — lazy loaded */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-6 rounded-2xl overflow-hidden border border-dark-border"
-          style={{ height: '420px' }}
+          className="mt-6"
         >
-          <iframe
-            src={`https://dexscreener.com/bsc/${TOKEN.contractAddress}?embed=1&theme=dark&trades=0&info=0`}
-            title="MOKKI DAO Live Chart"
-            className="w-full h-full"
-            style={{ border: 'none' }}
-            loading="lazy"
-          />
+          <LazyChart />
         </motion.div>
         <div className="text-center mt-3">
           <a
