@@ -34,7 +34,7 @@ export default function MarqueeTicker() {
   /* Publish --ticker-h so the hero can consume it */
   useEffect(() => {
     document.documentElement.style.setProperty('--ticker-h', '32px')
-    return () => document.documentElement.style.removeProperty('--ticker-h')
+    return () => { document.documentElement.style.removeProperty('--ticker-h') }
   }, [])
 
   const items = [

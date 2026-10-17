@@ -83,7 +83,15 @@ export default function MarketStats() {
     : null
 
   return (
-    <section id="market-stats" className="py-16 px-4">
+    <motion.section
+      id="market-stats"
+      className="py-16 px-4"
+      initial={{ opacity: 0, y: 40, rotateX: 8 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      style={{ transformOrigin: 'center bottom' }}
+    >
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -198,6 +206,6 @@ export default function MarketStats() {
           </a>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

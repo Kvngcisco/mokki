@@ -524,13 +524,30 @@ html.light .hero-mascot-wrap > div:first-child {
 } /* end @media (min-width: 1024px) */
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MOBILE HERO v3 — stat cards, CSS variables, next-section entrance
+   MOBILE HERO v4 — stat cards, CSS vars, 3D scroll, light mode, entrance
 ═══════════════════════════════════════════════════════════════════════════ */
 
-/* CSS vars for ticker / nav heights — set by the components themselves */
+/* ── Shimmer keyframe (used by Skel loader) ───────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── CSS vars for ticker / nav heights — set by the components themselves ── */
 :root {
   --ticker-h: 32px;
   --nav-h: 56px;
+  /* Mobile hero colour tokens — dark default */
+  --mobile-hero-bg: #0B0B14;
+  --mobile-hero-heading: #FFF6E5;
+  --mobile-hero-sub: rgba(255, 246, 229, 0.72);
+}
+
+/* Light mode token overrides */
+html.light {
+  --mobile-hero-bg: #FFF6E5;
+  --mobile-hero-heading: #2C1A06;
+  --mobile-hero-sub: rgba(58, 36, 16, 0.72);
 }
 
 /* ── Mobile stat glass card ───────────────────────────────────────────────── */
@@ -545,47 +562,100 @@ html.light .hero-mascot-wrap > div:first-child {
 }
 
 html.light .mobile-stat-card {
-  background: rgba(255, 255, 255, 0.75);
-  border-color: rgba(242, 140, 40, 0.25);
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(242, 140, 40, 0.28);
+  box-shadow: 0 2px 16px rgba(242, 140, 40, 0.07);
 }
 
-/* ── Next-section entrance — slides up and un-tilts as it enters viewport ── */
-.next-section-entrance {
-  /* applied to the MarqueeTicker wrapper and the first section after hero */
+/* stat card label text in light mode */
+html.light .mobile-stat-card p:first-child {
+  color: rgba(58, 36, 16, 0.5) !important;
 }
 
+/* stat card value text in light mode (non-coloured) */
+html.light .mobile-stat-card p:last-child {
+  color: #2C1A06 !important;
+}
+
+/* ── Next-section entrance ────────────────────────────────────────────────── */
+/* The first real section after the hero fades + slides up as it enters.
+   Add class="next-section-entrance" to MarketStats or the SectionDivider
+   wrapper if desired; Framer Motion whileInView handles it in JSX. */
 @media (max-width: 767px) {
-  /* Ticker height */
+
+  /* ── Ticker ─────────────────────────────────────────────────────────── */
   .ticker-bar {
     height: var(--ticker-h, 32px);
     font-size: 12px;
     touch-action: pan-x;
   }
 
-  /* Ticker pause on touch */
+  /* Pause ticker scroll on touch */
   .ticker-bar:active .ticker-inner,
   .ticker-bar:focus-within .ticker-inner {
     animation-play-state: paused;
   }
 
-  /* Navbar blur + gold border */
+  /* ── Navbar ─────────────────────────────────────────────────────────── */
   .site-navbar {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 197, 61, 0.18);
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 197, 61, 0.18) !important;
     height: var(--nav-h, 56px);
   }
 
-  /* Light mode stat card */
-  html.light .mobile-stat-card {
-    background: rgba(255, 255, 255, 0.82);
+  html.light .site-navbar {
+    border-bottom-color: rgba(242, 140, 40, 0.25) !important;
   }
 
-  /* "Community" gold readable on cream */
-  html.light .mobile-hero-community {
-    filter: drop-shadow(0 0 6px rgba(196,120,10,0.25));
+  /* ── Light mode hero background ─────────────────────────────────────── */
+  html.light section#hero {
+    background: var(--mobile-hero-bg) !important;
   }
-}
+
+  /* ── Community gradient — darker orange in light mode ──────────────── */
+  html.light .mobile-hero-community {
+    background: linear-gradient(135deg, #C98A12 0%, #A6541A 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: drop-shadow(0 0 8px rgba(196, 120, 10, 0.3)) !important;
+  }
+
+  /* ── Light mode contract card ───────────────────────────────────────── */
+  html.light section#hero .rounded-2xl[style*="rgba(16,16,26"] {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border-color: rgba(242, 140, 40, 0.3) !important;
+  }
+
+  /* ── Light mode trust chips ─────────────────────────────────────────── */
+  html.light section#hero span[style*="rgba(139,212,80"] {
+    background: rgba(60, 140, 20, 0.08) !important;
+    border-color: rgba(60, 140, 20, 0.3) !important;
+    color: #3a7a10 !important;
+  }
+
+  /* ── Light mode buttons ─────────────────────────────────────────────── */
+  html.light section#hero a[style*="rgba(255,197,61,0.4)"] {
+    border-color: rgba(196, 120, 10, 0.5) !important;
+    color: #9A6010 !important;
+  }
+
+  html.light section#hero a[style*="rgba(255,197,61,0.4)"]:hover {
+    background: rgba(196, 120, 10, 0.08) !important;
+  }
+
+  /* ── Light mode stat card value text fix ─────────────────────────────── */
+  html.light .mobile-stat-card p {
+    color: #2C1A06;
+  }
+
+  /* ── Dot pattern in light mode ──────────────────────────────────────── */
+  html.light section#hero > div:first-child {
+    background-image: radial-gradient(circle, rgba(196, 120, 10, 0.1) 1px, transparent 1px) !important;
+  }
+
+} /* end @media (max-width: 767px) */
 
 /* ── Reduced motion overrides ─────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
