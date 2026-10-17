@@ -34,11 +34,11 @@
   }
 
   html.light body {
-    background-color: #12131F;
-    color: #F0EDE8;
+    background-color: #FAFAF8;
+    color: #1A1008;
     background-image:
-      radial-gradient(ellipse at 20% 10%, rgba(255, 197, 61, 0.07) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(242, 140, 40, 0.05) 0%, transparent 50%);
+      radial-gradient(ellipse at 20% 10%, rgba(255, 197, 61, 0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(242, 140, 40, 0.07) 0%, transparent 50%);
   }
 
   /* Noise texture overlay */
@@ -61,6 +61,9 @@
   ::-webkit-scrollbar-track { background: #0B0B14; }
   ::-webkit-scrollbar-thumb { background: #FFC53D44; border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: #FFC53D88; }
+  html.light ::-webkit-scrollbar-track { background: #EDE8DE; }
+  html.light ::-webkit-scrollbar-thumb { background: rgba(180,100,0,0.30); }
+  html.light ::-webkit-scrollbar-thumb:hover { background: rgba(180,100,0,0.55); }
 }
 
 @layer components {
@@ -70,9 +73,9 @@
     @apply transition-all duration-300;
   }
   html.light .glass-card {
-    background: rgba(30, 31, 50, 0.85);
-    border-color: rgba(255, 197, 61, 0.2);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.90);
+    border-color: rgba(196, 120, 10, 0.20);
+    box-shadow: 0 4px 24px rgba(160, 90, 0, 0.08);
   }
 
   /* Gradient border card */
@@ -112,12 +115,12 @@
     @apply transition-all duration-300 hover:scale-105 active:scale-95;
   }
   html.light .btn-outline {
-    border-color: rgba(255, 197, 61, 0.5);
-    color: #FFC53D;
+    border-color: rgba(180, 100, 10, 0.55);
+    color: #8A4E00;
   }
   html.light .btn-outline:hover {
-    background: rgba(255, 197, 61, 0.1);
-    border-color: #FFC53D;
+    background: rgba(180, 100, 10, 0.08);
+    border-color: #B36800;
   }
 
   /* Section heading */
@@ -155,9 +158,9 @@
     @apply hover:border-gold/40 transition-colors duration-200;
   }
   html.light .contract-bar {
-    background: rgba(30, 31, 50, 0.85);
-    border-color: rgba(255, 197, 61, 0.2);
-    color: rgba(240, 237, 232, 0.7);
+    background: #FFFFFF;
+    border-color: rgba(196, 120, 10, 0.25);
+    color: #3A2008;
   }
 }
 
@@ -224,14 +227,14 @@ html.light .mascot-blend {
 /* ── Light mode mascot drop-shadow swap ──────────────────────────────────── */
 html.light .hero-mascot {
   filter:
-    drop-shadow(0 0 2px rgba(196, 120, 10, 0.5))
-    drop-shadow(0 16px 32px rgba(196, 120, 10, 0.3))
+    drop-shadow(0 0 2px rgba(160, 80, 0, 0.35))
+    drop-shadow(0 16px 32px rgba(160, 80, 0, 0.20))
     saturate(1.05)
     contrast(1.02) !important;
 }
 
 html.light .hero-mascot-wrap > div:first-child {
-  background: radial-gradient(ellipse 70% 60% at 55% 55%, rgba(255,197,61,0.28) 0%, rgba(242,140,40,0.12) 50%, transparent 75%) !important;
+  background: radial-gradient(ellipse 70% 60% at 55% 55%, rgba(255,197,61,0.22) 0%, rgba(242,140,40,0.10) 50%, transparent 75%) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -319,7 +322,7 @@ html.light .hero-mascot-wrap > div:first-child {
   }
 
   html.light .hero-scrim {
-    background: linear-gradient(to bottom, transparent 0%, #12131F 45%);
+    background: linear-gradient(to bottom, transparent 0%, #F5F0E8 45%);
   }
 
   /* Content padding */
@@ -339,7 +342,7 @@ html.light .hero-mascot-wrap > div:first-child {
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
   }
   html.light .hero-headline-text-shadow {
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.6);
   }
 
   /* ── Description ─────────────────────────────────────────────────────── */
@@ -349,7 +352,7 @@ html.light .hero-mascot-wrap > div:first-child {
     /* AA contrast: cream/80 on the dark scrim is fine in dark mode */
   }
   html.light .hero-desc {
-    color: #5a3a1a; /* dark brown, AA against cream */
+    color: rgba(26, 16, 8, 0.72); /* dark brown, AA on warm white */
   }
 
   /* ── Buttons ─────────────────────────────────────────────────────────── */
@@ -400,8 +403,8 @@ html.light .hero-mascot-wrap > div:first-child {
     white-space: nowrap;
   }
   html.light .hero-chip {
-    background: rgba(242, 140, 40, 0.08);
-    border-color: rgba(242, 140, 40, 0.3);
+    background: rgba(180, 100, 0, 0.07);
+    border-color: rgba(180, 100, 0, 0.28);
   }
 
   .hero-chip-label {
@@ -409,7 +412,7 @@ html.light .hero-mascot-wrap > div:first-child {
     font-size: 11px;
   }
   html.light .hero-chip-label {
-    color: rgba(58, 36, 16, 0.55);
+    color: rgba(26, 16, 8, 0.52);
   }
 
 } /* end @media (max-width: 767px) */
@@ -456,7 +459,7 @@ html.light .hero-mascot-wrap > div:first-child {
     font-size: 1.125rem; /* 18px */
   }
   html.light .hero-desc {
-    color: rgba(240, 237, 232, 0.75);
+    color: rgba(26, 16, 8, 0.72);
   }
 
   /* Buttons: revert to inline-flex wrap */
@@ -552,11 +555,11 @@ html.light .hero-mascot-wrap > div:first-child {
   --mobile-hero-sub: rgba(255, 246, 229, 0.72);
 }
 
-/* Light mode token overrides — deep slate background, near-white text */
+/* Light mode token overrides — warm white background, dark readable text */
 html.light {
-  --mobile-hero-bg: #12131F;
-  --mobile-hero-heading: #F0EDE8;
-  --mobile-hero-sub: rgba(240, 237, 232, 0.70);
+  --mobile-hero-bg: #F5F0E8;
+  --mobile-hero-heading: #1A1008;
+  --mobile-hero-sub: rgba(26, 16, 8, 0.68);
 }
 
 /* ── Mobile stat glass card ───────────────────────────────────────────────── */
@@ -571,19 +574,19 @@ html.light {
 }
 
 html.light .mobile-stat-card {
-  background: rgba(255, 255, 255, 0.82);
-  border-color: rgba(242, 140, 40, 0.28);
-  box-shadow: 0 2px 16px rgba(242, 140, 40, 0.07);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(196, 120, 10, 0.22);
+  box-shadow: 0 2px 16px rgba(160, 90, 0, 0.07);
 }
 
 /* stat card label text in light mode */
 html.light .mobile-stat-card p:first-child {
-  color: rgba(58, 36, 16, 0.5) !important;
+  color: rgba(26, 16, 8, 0.50) !important;
 }
 
 /* stat card value text in light mode (non-coloured) */
 html.light .mobile-stat-card p:last-child {
-  color: #2C1A06 !important;
+  color: #1A1008 !important;
 }
 
 /* ── Next-section entrance ────────────────────────────────────────────────── */
@@ -614,42 +617,42 @@ html.light .mobile-stat-card p:last-child {
   }
 
   html.light .site-navbar {
-    border-bottom-color: rgba(255, 197, 61, 0.22) !important;
-    background-color: rgba(18, 19, 31, 0.92) !important;
+    border-bottom-color: rgba(196, 120, 10, 0.20) !important;
+    background-color: rgba(250, 250, 248, 0.94) !important;
   }
 
   /* ── Light mode hero background ─────────────────────────────────────── */
   html.light section#hero {
-    background: #12131F !important;
+    background: #F5F0E8 !important;
   }
 
-  /* ── Community gradient — slightly warmer gold on slate ────────────── */
+  /* ── Community gradient — deep amber on warm white ──────────────────── */
   html.light .mobile-hero-community {
-    background: linear-gradient(135deg, #FFD166 0%, #F28C28 100%) !important;
+    background: linear-gradient(135deg, #B36800 0%, #8A3E00 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
-    filter: drop-shadow(0 0 10px rgba(255, 197, 61, 0.45)) !important;
+    filter: drop-shadow(0 0 8px rgba(180, 100, 0, 0.18)) !important;
   }
 
   /* ── Light mode stat card ────────────────────────────────────────────── */
   html.light .mobile-stat-card {
-    background: rgba(30, 31, 50, 0.85) !important;
-    border-color: rgba(255, 197, 61, 0.22) !important;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(196, 120, 10, 0.22) !important;
+    box-shadow: 0 2px 16px rgba(160, 90, 0, 0.07) !important;
   }
 
   html.light .mobile-stat-card p:first-child {
-    color: rgba(240, 237, 232, 0.45) !important;
+    color: rgba(26, 16, 8, 0.50) !important;
   }
 
   html.light .mobile-stat-card p:last-child {
-    color: #F0EDE8 !important;
+    color: #1A1008 !important;
   }
 
-  /* ── Dot pattern on slate ────────────────────────────────────────────── */
+  /* ── Dot pattern on warm white ───────────────────────────────────────── */
   html.light section#hero > div:first-child {
-    background-image: radial-gradient(circle, rgba(255, 197, 61, 0.09) 1px, transparent 1px) !important;
+    background-image: radial-gradient(circle, rgba(180, 100, 0, 0.12) 1px, transparent 1px) !important;
   }
 
 } /* end @media (max-width: 767px) */

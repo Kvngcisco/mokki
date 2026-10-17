@@ -1,10 +1,9 @@
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import {
   motion,
   useScroll,
   useTransform,
   useSpring,
-  AnimatePresence,
 } from 'framer-motion'
 import {
   Copy,
@@ -15,12 +14,12 @@ import {
   ChevronDown,
   CheckCircle,
 } from 'lucide-react'
-import { TrendingUp, TrendingDown } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { PROJECT, TOKEN, SOCIALS } from '../config'
 import { ASSETS } from '../assets'
 import { useMarketData } from '../hooks/useMarketData'
 import { useMediaQuery, useReducedMotion } from '../hooks/useMediaQuery'
+import { useTheme } from '../hooks/useTheme'
 
 /* ─── Helpers ────────────────────────────────────────────────────────────── */
 function fmtPrice(n: number | null) {
@@ -201,6 +200,8 @@ function DesktopParticles() {
 function MobileHero() {
   const reducedMotion = useReducedMotion()
   const { data, loading } = useMarketData()
+  const { theme } = useTheme()
+  const isLight = theme === 'light'
   const sectionRef = useRef<HTMLElement>(null)
 
   /* ── Scroll-linked 3D ──────────────────────────────────────────────── */
@@ -293,7 +294,7 @@ function MobileHero() {
         minHeight: 'calc(100svh - var(--ticker-h, 32px) - var(--nav-h, 56px))',
         paddingTop: 'calc(var(--ticker-h, 32px) + var(--nav-h, 56px) + env(safe-area-inset-top, 0px) + 24px)',
         paddingBottom: '72px',
-        background: 'var(--mobile-hero-bg, #0B0B14)',
+        background: isLight ? '#F5F0E8' : '#0B0B14',
       }}
     >
       {/* ── Dot / grid pattern ───────────────────────────────────────── */}
@@ -301,7 +302,9 @@ function MobileHero() {
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,197,61,0.08) 1px, transparent 1px)',
+          backgroundImage: isLight
+            ? 'radial-gradient(circle, rgba(180,100,0,0.12) 1px, transparent 1px)'
+            : 'radial-gradient(circle, rgba(255,197,61,0.08) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
           maskImage:
             'radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%)',
@@ -321,8 +324,9 @@ function MobileHero() {
           width: 360,
           height: 360,
           borderRadius: '50%',
-          background:
-            'radial-gradient(circle, rgba(255,197,61,0.20) 0%, rgba(242,140,40,0.08) 50%, transparent 70%)',
+          background: isLight
+            ? 'radial-gradient(circle, rgba(255,197,61,0.22) 0%, rgba(242,140,40,0.08) 50%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(255,197,61,0.20) 0%, rgba(242,140,40,0.08) 50%, transparent 70%)',
           filter: 'blur(48px)',
           y: glowY,
           willChange: 'transform',
@@ -339,8 +343,9 @@ function MobileHero() {
           width: 220,
           height: 220,
           borderRadius: '50%',
-          background:
-            'radial-gradient(circle, rgba(59,107,255,0.14) 0%, transparent 70%)',
+          background: isLight
+            ? 'radial-gradient(circle, rgba(180,100,0,0.08) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(59,107,255,0.14) 0%, transparent 70%)',
           filter: 'blur(40px)',
         }}
       />
@@ -373,15 +378,15 @@ function MobileHero() {
           animate="visible"
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6"
           style={{
-            background: 'rgba(255,197,61,0.1)',
-            border: '1px solid rgba(255,197,61,0.35)',
+            background: isLight ? 'rgba(180,100,0,0.08)' : 'rgba(255,197,61,0.10)',
+            border: isLight ? '1px solid rgba(180,100,0,0.28)' : '1px solid rgba(255,197,61,0.35)',
           }}
         >
           <span
             className="w-2 h-2 rounded-full flex-shrink-0"
             style={{ background: '#8BD450', animation: 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite' }}
           />
-          <span className="text-xs font-semibold tracking-wide" style={{ color: '#FFC53D' }}>
+          <span className="text-xs font-semibold tracking-wide" style={{ color: isLight ? '#7A4800' : '#FFC53D' }}>
             Live on BNB Smart Chain
           </span>
         </motion.div>
@@ -405,8 +410,10 @@ function MobileHero() {
             <span
               className="block"
               style={{
-                color: 'var(--mobile-hero-heading, #FFF6E5)',
-                textShadow: '0 2px 20px rgba(0,0,0,0.6)',
+                color: isLight ? '#1A1008' : '#FFF6E5',
+                textShadow: isLight
+                  ? '0 1px 4px rgba(255,255,255,0.6)'
+                  : '0 2px 20px rgba(0,0,0,0.6)',
               }}
             >
               Built for the
@@ -414,11 +421,15 @@ function MobileHero() {
             <span
               className="block mobile-hero-community"
               style={{
-                background: 'linear-gradient(135deg, #FFC53D 0%, #F28C28 100%)',
+                background: isLight
+                  ? 'linear-gradient(135deg, #B36800 0%, #8A3E00 100%)'
+                  : 'linear-gradient(135deg, #FFC53D 0%, #F28C28 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 14px rgba(255,197,61,0.5))',
+                filter: isLight
+                  ? 'drop-shadow(0 0 6px rgba(180,100,0,0.15))'
+                  : 'drop-shadow(0 0 14px rgba(255,197,61,0.5))',
               }}
             >
               Community
@@ -437,7 +448,7 @@ function MobileHero() {
             fontSize: 16,
             lineHeight: 1.6,
             maxWidth: '34ch',
-            color: 'var(--mobile-hero-sub, rgba(255,246,229,0.72))',
+            color: isLight ? 'rgba(26,16,8,0.68)' : 'rgba(255,246,229,0.72)',
           }}
         >
           {PROJECT.shortDescription}
@@ -461,8 +472,10 @@ function MobileHero() {
             style={{
               height: 52,
               background: 'linear-gradient(135deg, #FFC53D 0%, #F28C28 100%)',
-              color: '#0B0B14',
-              boxShadow: '0 4px 28px rgba(255,197,61,0.4)',
+              color: '#1A0800',
+              boxShadow: isLight
+                ? '0 4px 20px rgba(180,100,0,0.28)'
+                : '0 4px 28px rgba(255,197,61,0.4)',
               textDecoration: 'none',
             }}
           >
@@ -479,9 +492,12 @@ function MobileHero() {
               className="flex items-center justify-center gap-1.5 rounded-full font-display font-bold text-xs transition-colors"
               style={{
                 height: 48,
-                color: '#FFC53D',
-                border: '1px solid rgba(255,197,61,0.4)',
+                color: isLight ? '#7A4800' : '#FFC53D',
+                border: isLight
+                  ? '1px solid rgba(180,100,0,0.40)'
+                  : '1px solid rgba(255,197,61,0.40)',
                 textDecoration: 'none',
+                background: isLight ? 'rgba(255,255,255,0.70)' : 'transparent',
               }}
             >
               <BarChart2 className="w-3.5 h-3.5 flex-shrink-0" />
@@ -494,9 +510,12 @@ function MobileHero() {
               className="flex items-center justify-center gap-1.5 rounded-full font-display font-bold text-xs transition-colors"
               style={{
                 height: 48,
-                color: '#FFC53D',
-                border: '1px solid rgba(255,197,61,0.4)',
+                color: isLight ? '#7A4800' : '#FFC53D',
+                border: isLight
+                  ? '1px solid rgba(180,100,0,0.40)'
+                  : '1px solid rgba(255,197,61,0.40)',
                 textDecoration: 'none',
+                background: isLight ? 'rgba(255,255,255,0.70)' : 'transparent',
               }}
             >
               <Send className="w-3.5 h-3.5 flex-shrink-0" />
@@ -512,9 +531,12 @@ function MobileHero() {
             className="flex items-center justify-center gap-2 w-full rounded-full font-display font-bold text-xs transition-colors"
             style={{
               height: 48,
-              color: '#FFC53D',
-              border: '1px solid rgba(255,197,61,0.4)',
+              color: isLight ? '#7A4800' : '#FFC53D',
+              border: isLight
+                ? '1px solid rgba(180,100,0,0.40)'
+                : '1px solid rgba(255,197,61,0.40)',
               textDecoration: 'none',
+              background: isLight ? 'rgba(255,255,255,0.70)' : 'transparent',
             }}
           >
             <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -561,9 +583,9 @@ function MobileHero() {
               className="inline-flex items-center gap-1.5 rounded-full text-xs font-semibold"
               style={{
                 padding: '6px 12px',
-                background: 'rgba(139,212,80,0.08)',
-                border: '1px solid rgba(139,212,80,0.3)',
-                color: '#8BD450',
+                background: isLight ? 'rgba(30,120,0,0.07)' : 'rgba(139,212,80,0.08)',
+                border: isLight ? '1px solid rgba(30,120,0,0.28)' : '1px solid rgba(139,212,80,0.3)',
+                color: isLight ? '#1E6400' : '#8BD450',
               }}
             >
               <CheckCircle className="w-3 h-3 flex-shrink-0" />
@@ -581,15 +603,18 @@ function MobileHero() {
           className="w-full rounded-2xl p-4"
           style={{
             maxWidth: 360,
-            background: 'rgba(16,16,26,0.88)',
+            background: isLight ? 'rgba(255,255,255,0.92)' : 'rgba(16,16,26,0.88)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255,197,61,0.22)',
+            border: isLight
+              ? '1px solid rgba(196,120,10,0.25)'
+              : '1px solid rgba(255,197,61,0.22)',
+            boxShadow: isLight ? '0 2px 20px rgba(160,90,0,0.08)' : 'none',
           }}
         >
           <p
             className="uppercase tracking-widest mb-2"
-            style={{ fontSize: 10, color: 'rgba(255,246,229,0.38)' }}
+            style={{ fontSize: 10, color: isLight ? 'rgba(26,16,8,0.42)' : 'rgba(255,246,229,0.38)' }}
           >
             Contract
           </p>
@@ -601,13 +626,13 @@ function MobileHero() {
           >
             <span
               className="font-mono truncate"
-              style={{ fontSize: 13, color: 'rgba(255,246,229,0.72)' }}
+              style={{ fontSize: 13, color: isLight ? '#3A2008' : 'rgba(255,246,229,0.72)' }}
             >
               {shortAddr}
             </span>
             <span
               className="flex items-center gap-1 flex-shrink-0 font-semibold group-hover:opacity-80 transition-opacity"
-              style={{ fontSize: 12, color: '#FFC53D' }}
+              style={{ fontSize: 12, color: isLight ? '#7A4800' : '#FFC53D' }}
             >
               <Copy className="w-3.5 h-3.5" />
               Copy
@@ -618,7 +643,7 @@ function MobileHero() {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5 transition-colors hover:opacity-80"
-            style={{ fontSize: 12, color: '#FFC53D', textDecoration: 'none' }}
+            style={{ fontSize: 12, color: isLight ? '#7A4800' : '#FFC53D', textDecoration: 'none' }}
           >
             <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
             Verify on BscScan
@@ -637,7 +662,7 @@ function MobileHero() {
       >
         <span
           className="uppercase tracking-widest"
-          style={{ fontSize: 10, color: 'rgba(255,246,229,0.3)' }}
+          style={{ fontSize: 10, color: isLight ? 'rgba(26,16,8,0.35)' : 'rgba(255,246,229,0.3)' }}
         >
           Scroll
         </span>
@@ -647,7 +672,7 @@ function MobileHero() {
         >
           <ChevronDown
             className="w-5 h-5"
-            style={{ color: 'rgba(255,246,229,0.3)' }}
+            style={{ color: isLight ? 'rgba(26,16,8,0.30)' : 'rgba(255,246,229,0.3)' }}
           />
         </motion.div>
       </motion.div>
