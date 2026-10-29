@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowLeft, ArrowRight, Check, CircleHelp, Coins, Hexagon, Info, Layers3, Rocket, ShieldCheck, Sparkles, WalletCards, Zap } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, CircleHelp, Coins, Hexagon, Info, Layers3, LoaderCircle, Rocket, ShieldCheck, Sparkles, Wallet, WalletCards, X, Zap } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
+import WalletModal from './WalletModal'
 
 type Chain = 'BSC' | 'Solana'
 const STEPS = ['Token details', 'Chain & settings', 'Review']
@@ -40,6 +41,10 @@ export default function Launchpad() {
   const [liquidity, setLiquidity] = useState('')
   const [attempted, setAttempted] = useState(false)
   const [toast, setToast] = useState(false)
+  const [walletModalOpen, setWalletModalOpen] = useState(false)
+  const [connectingWallet, setConnectingWallet] = useState('')
+  const [connectedWallet, setConnectedWallet] = useState<{ provider: string; address: string } | null>(null)
+  const walletTimerRef = useRef<number | null>(null)
   const [logoPreview, setLogoPreview] = useState('')
   const [logoError, setLogoError] = useState('')
   const logoInputRef = useRef<HTMLInputElement>(null)
@@ -47,7 +52,32 @@ export default function Launchpad() {
 
   useEffect(() => () => {
     if (logoObjectUrlRef.current) URL.revokeObjectURL(logoObjectUrlRef.current)
+    if (walletTimerRef.current !== null) window.clearTimeout(walletTimerRef.current)
   }, [])
+
+  const connectWallet = (provider: string) => {
+    if (walletTimerRef.current !== null) window.clearTimeout(walletTimerRef.current)
+    setConnectingWallet(provider)
+    walletTimerRef.current = window.setTimeout(() => {
+      const addresses = chain === 'BSC'
+        ? ['0x7A3f...9C4e', '0x4D21...B8a0', '0x91cE...17F2']
+        : ['7xKX...mP9q', 'So1a...8vQ2', 'Gk3d...R6tA']
+      const address = addresses[Math.floor(Math.random() * addresses.length)]
+      setConnectedWallet({ provider, address })
+      setConnectingWallet('')
+      setWalletModalOpen(false)
+      walletTimerRef.current = null
+    }, 1200)
+  }
+
+  const disconnectWallet = () => {
+    if (walletTimerRef.current !== null) window.clearTimeout(walletTimerRef.current)
+    walletTimerRef.current = null
+    setConnectingWallet('')
+    setConnectedWallet(null)
+  }
+
+  const handleWalletChoice = (provider: string) => connectWallet(provider)
 
   const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -108,6 +138,13 @@ export default function Launchpad() {
   return (
     <section id="launchpad" className="scroll-mt-28 px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
+        <div className={`mb-4 flex flex-col gap-3 rounded-2xl border p-3 sm:flex-row sm:items-center sm:justify-between sm:px-4 ${isLight ? 'border-black/10 bg-white/70' : 'border-white/10 bg-dark-card/60'}`}>
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gold/10 text-gold"><Wallet className="h-4 w-4" /></span>
+            {connectedWallet ? <div className="min-w-0"><p className={`text-xs font-semibold ${heading}`}>Demo wallet connected <span className="ml-1 text-[10px] font-normal text-lime">· preview only</span></p><div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]"><span className={`rounded-full border px-2 py-0.5 font-mono ${isLight ? 'border-black/10 bg-black/[0.03] text-[#26180c]/75' : 'border-white/10 bg-white/[0.04] text-cream/75'}`}>{connectedWallet.address}</span><span className={muted}>{chain === 'BSC' ? '0.5231 BNB' : '12.4 SOL'} <span className="opacity-70">· demo balance</span></span></div></div> : <div><p className={`text-xs font-semibold ${heading}`}>Wallet preview</p><p className={`text-[11px] ${muted}`}>Connect to preview the launch flow. No wallet access.</p></div>}
+          </div>
+          {connectedWallet ? <div className="flex items-center gap-2"><span className="hidden rounded-full bg-lime/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-lime sm:inline-flex"><span className="mr-1.5 mt-1 h-1.5 w-1.5 rounded-full bg-lime" />Connected</span><button type="button" onClick={disconnectWallet} className={`inline-flex min-h-10 items-center justify-center rounded-full border px-4 text-xs font-semibold transition ${isLight ? 'border-black/15 text-[#26180c]/75 hover:bg-black/5' : 'border-white/15 text-cream/75 hover:bg-white/5'}`}>Disconnect</button></div> : <button type="button" onClick={() => setWalletModalOpen(true)} className="btn-gold inline-flex min-h-10 shrink-0 items-center justify-center gap-2 px-4 text-xs"><Wallet className="h-4 w-4" />Connect Wallet</button>}
+        </div>
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative mb-8 overflow-hidden rounded-3xl border border-gold/25 bg-gradient-to-br from-gold/10 via-orange/5 to-transparent p-6 sm:p-9 lg:p-11">
           <div className="pointer-events-none absolute -right-10 -top-16 h-64 w-64 rounded-full bg-gold/10 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-24 left-1/3 h-48 w-48 rounded-full bg-lime/10 blur-3xl" />
@@ -195,8 +232,8 @@ export default function Launchpad() {
                   <div className={`overflow-hidden rounded-2xl border ${isLight ? 'border-black/10' : 'border-white/10'}`}>
                     {[["Token name", name || 'Not set'], ['Symbol', symbol ? `$${symbol}` : 'Not set'], ['Decimals', decimals || 'Not set'], ['Total supply', supply ? Number(supply).toLocaleString() : 'Not set'], ['Network', chain === 'BSC' ? 'BNB Smart Chain · BEP-20' : 'Solana · SPL'], ['Buy / sell tax', taxEnabled ? `${buyTax || 0}% / ${sellTax || 0}%` : 'Not enabled'], ['Liquidity preview', liquidity ? `${liquidity} ${chain === 'BSC' ? 'BNB' : 'SOL'}` : 'Not set']].map(([label, value], index) => <div key={label} className={`flex items-center justify-between gap-3 px-4 py-3 text-sm ${index % 2 === 0 ? isLight ? 'bg-black/[0.025]' : 'bg-white/[0.025]' : ''}`}><span className={muted}>{label}</span><span className={`text-right font-semibold ${heading}`}>{value}</span></div>)}
                   </div>
-                  <div className={`mt-4 flex items-start gap-2 rounded-xl border p-3 text-xs ${isLight ? 'border-orange/25 bg-orange/5 text-[#783e15]' : 'border-orange/25 bg-orange/5 text-orange/90'}`}><Info className="mt-0.5 h-4 w-4 shrink-0" />Non-functional preview only. No token will be deployed and no wallet will be requested.</div>
-                  <button type="button" onClick={showComingSoon} className="btn-gold mt-5 w-full justify-center" aria-label="Deploy token, launchpad coming soon"><Rocket className="h-4 w-4" /> Deploy Token <span className="rounded-full bg-black/10 px-2 py-0.5 text-[10px] font-extrabold uppercase">Coming soon</span></button>
+                  <div className={`mt-4 flex items-start gap-2 rounded-xl border p-3 text-xs ${isLight ? 'border-orange/25 bg-orange/5 text-[#783e15]' : 'border-orange/25 bg-orange/5 text-orange/90'}`}><Info className="mt-0.5 h-4 w-4 shrink-0" />Non-functional preview only. No token will be deployed. The wallet connection above is simulated and never accesses a wallet.</div>
+                  {connectedWallet ? <button type="button" onClick={showComingSoon} className="btn-gold mt-5 w-full justify-center" aria-label="Deploy token, launchpad coming soon"><Rocket className="h-4 w-4" /> Deploy Token <span className="rounded-full bg-black/10 px-2 py-0.5 text-[10px] font-extrabold uppercase">Coming soon</span></button> : <div className={`mt-5 rounded-2xl border p-4 ${isLight ? 'border-gold/25 bg-gold/5' : 'border-gold/20 bg-gold/5'}`}><div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><p className={`text-sm font-bold ${heading}`}>Connect to continue</p><p className={`mt-1 text-xs ${muted}`}>Preview the connected state before deployment becomes available.</p></div><button type="button" onClick={() => setWalletModalOpen(true)} className="btn-gold inline-flex min-h-10 shrink-0 items-center justify-center gap-2 px-4 text-xs"><Wallet className="h-4 w-4" />Connect Wallet</button></div><p className={`mt-2 text-[10px] ${muted}`}>Simulated demo only. No wallet access or transaction.</p></div>}
                 </div>}
               </motion.div></AnimatePresence>
             </div>
@@ -215,7 +252,8 @@ export default function Launchpad() {
           </motion.aside>
         </div>
       </div>
-      <AnimatePresence>{toast && <motion.div role="status" aria-live="polite" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }} className={`fixed bottom-5 left-1/2 z-[70] flex w-[calc(100%-2rem)] max-w-md -translate-x-1/2 items-center gap-3 rounded-2xl border px-4 py-3 shadow-2xl ${isLight ? 'border-gold/30 bg-white text-[#26180c]' : 'border-gold/30 bg-dark-card text-cream'}`}><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold"><Check className="h-4 w-4" /></span><span className="text-sm font-semibold">Launchpad coming soon. Join the Telegram for early access.</span></motion.div>}</AnimatePresence>
+      <WalletModal open={walletModalOpen} connectingWallet={connectingWallet} chain={chain} isLight={isLight} heading={heading} muted={muted} onClose={() => setWalletModalOpen(false)} onChoose={handleWalletChoice} />
+      <AnimatePresence>{toast && <motion.div role="status" aria-live="polite" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }} className={`fixed bottom-5 left-1/2 z-[90] flex w-[calc(100%-2rem)] max-w-md -translate-x-1/2 items-center gap-3 rounded-2xl border px-4 py-3 shadow-2xl ${isLight ? 'border-gold/30 bg-white text-[#26180c]' : 'border-gold/30 bg-dark-card text-cream'}`}><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold"><Check className="h-4 w-4" /></span><span className="text-sm font-semibold">Launchpad coming soon. Join the Telegram for early access.</span></motion.div>}</AnimatePresence>
     </section>
   )
 }
