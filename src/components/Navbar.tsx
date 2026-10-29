@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { label: 'About',      href: '#about'      },
   { label: 'Tokenomics', href: '#tokenomics' },
   { label: 'How to Buy', href: '#how-to-buy' },
+  { label: 'Launchpad',  href: '#launchpad'  },
   { label: 'Staking',    href: '#staking'    },
   { label: 'DAO',        href: '#dao'        },
   { label: 'Roadmap',    href: '#roadmap'    },

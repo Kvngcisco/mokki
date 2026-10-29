@@ -9,6 +9,7 @@ import MarketStats from './sections/MarketStats'
 import About from './sections/About'
 import Tokenomics from './sections/Tokenomics'
 import HowToBuy from './sections/HowToBuy'
+import Launchpad from './sections/Launchpad'
 import Staking from './sections/Staking'
 import DAO from './sections/DAO'
 import Safety from './sections/Safety'
@@ -60,6 +61,8 @@ export default function App() {
               <Tokenomics />
               <SectionDivider />
               <HowToBuy />
+              <SectionDivider />
+              <Launchpad />
               <SectionDivider />
               <Staking />
               <SectionDivider />
