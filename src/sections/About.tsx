@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Users, Hammer, TrendingUp, Eye } from 'lucide-react'
 import { PROJECT } from '../config'
 import { ASSETS } from '../assets'
+import { useTheme } from '../hooks/useTheme'
 
 const CARDS = [
   {
@@ -40,6 +41,8 @@ const itemVariants = {
 }
 
 export default function About() {
+  const { theme } = useTheme()
+  const isAboutLight = theme === 'light'
   return (
     <section id="about" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -78,13 +81,13 @@ export default function About() {
                   img.src = ASSETS.mascot
                   img.alt = 'MOKKI DAO mascot'
                   img.loading = 'lazy'
-                  img.className = 'relative w-56 sm:w-72 lg:w-80 object-contain'
+                  img.className = 'relative w-full max-w-md sm:max-w-lg lg:max-w-xl object-contain rounded-3xl'
                   img.style.filter = 'drop-shadow(0 12px 28px rgba(242,140,40,0.38)) saturate(1.05)'
                   el.parentElement?.appendChild(img)
                 }
               }}
-              className="relative w-56 sm:w-72 lg:w-80 object-contain rounded-3xl"
-              style={{ filter: 'drop-shadow(0 12px 28px rgba(242,140,40,0.38)) saturate(1.05)' }}
+              className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl object-cover rounded-3xl"
+              style={{ boxShadow: isAboutLight ? '0 16px 40px rgba(112,72,18,0.18), 0 0 0 1px rgba(94,65,31,0.15)' : '0 16px 40px rgba(242,140,40,0.28), 0 0 0 1px rgba(255,197,61,0.25)' }}
             />
           </motion.div>
 
