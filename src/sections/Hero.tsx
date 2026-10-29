@@ -593,7 +593,7 @@ function MobileHero() {
           className="flex flex-wrap justify-center mb-6"
           style={{ gap: 8 }}
         >
-          {['Ownership renounced', '0 / 0 tax', 'No mint function'].map(label => (
+          {['Ownership renounced', '0.14% buy / 4% sell tax', 'No mint function'].map(label => (
             <span
               key={label}
               className="inline-flex items-center gap-1.5 rounded-full text-xs font-semibold"
@@ -797,7 +797,7 @@ function DesktopHero() {
               className="hero-badge badge-card absolute left-0 bottom-1/3 glass-card px-3 py-2 text-xs whitespace-nowrap"
             >
               <div className="text-cream/50">Tax</div>
-              <div className="font-bold text-lime text-sm">0 / 0</div>
+              <div className="font-bold text-lime text-sm">0.14% / 4%</div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 24 }}
@@ -916,7 +916,7 @@ function DesktopHero() {
             >
               <span className="hero-chip">
                 <span className="hero-chip-label">Tax</span>
-                <span className="text-lime font-bold">0 / 0</span>
+                <span className="text-lime font-bold">0.14% / 4%</span>
               </span>
               <span className="hero-chip">
                 <span className="hero-chip-label">Ownership</span>
