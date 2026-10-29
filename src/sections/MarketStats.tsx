@@ -23,18 +23,13 @@ function Skeleton() {
   return <div className="skeleton h-6 w-20 rounded" />
 }
 
-function StatItem({
-  label,
-  value,
-  subValue,
-  positive,
-  loading,
-}: {
+function StatItem({ label, value, subValue, positive, loading, noPair = false }: {
   label: string
   value: string | null
   subValue?: string | null
   positive?: boolean | null
   loading: boolean
+  noPair?: boolean
 }) {
   return (
     <div className="stat-card">
@@ -47,7 +42,7 @@ function StatItem({
           positive === false ? 'text-pink' :
           'text-cream'
         }`}>
-          {value ?? <span className="text-cream/30 text-sm">Not available</span>}
+          {value ?? <span className="text-cream/60 text-xs">{noPair ? 'chart not live yet' : 'Not available'}</span>}
         </p>
       )}
       {subValue && !loading && (
@@ -82,9 +77,14 @@ function LazyChart() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [loaded, setLoaded] = useState(false)
   const [iframeReady, setIframeReady] = useState(false)
-  const loadTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [timedOut, setTimedOut] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Auto-load after 2 s of visibility
+  useEffect(() => {
+    if (!loaded || iframeReady) return
+    timeoutRef.current = setTimeout(() => setTimedOut(true), 12_000)
+    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }
+  }, [loaded, iframeReady])
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
@@ -93,24 +93,24 @@ function LazyChart() {
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (!loadTimer.current) loadTimer.current = setTimeout(() => setLoaded(true), 2000)
+          timer = setTimeout(() => setLoaded(true), 2000)
         } else {
-          if (loadTimer.current) { clearTimeout(loadTimer.current); loadTimer.current = null }
+          clearTimeout(timer)
         }
       },
       { threshold: 0.2 },
     )
     obs.observe(el)
-    return () => { obs.disconnect(); if (loadTimer.current) clearTimeout(loadTimer.current) }
+    return () => { obs.disconnect(); clearTimeout(timer) }
   }, [])
 
-  const src = `https://dexscreener.com/bsc/${TOKEN.contractAddress}?embed=1&theme=dark&trades=0&info=0`
+  const src = `https://dexscreener.com/bsc/0x6c92527806525a9fb605301e2922d5500108f4d9?embed=true&theme=dark&info=0`
 
   return (
     <div
       ref={containerRef}
-      className="lazy-chart-frame relative w-full rounded-2xl overflow-hidden border border-dark-border"
-      style={{ height: 'clamp(300px, 38vw, 420px)' }}
+      className="relative w-full rounded-2xl overflow-hidden border border-dark-border"
+      style={{ height: 420 }}
     >
       {/* Placeholder shown until iframe is requested */}
       {!loaded && (
@@ -119,17 +119,24 @@ function LazyChart() {
           <p className="text-sm text-cream/50">Live chart</p>
           <button
             onClick={() => setLoaded(true)}
-            className="btn-gold text-xs px-5 py-2"
+            className="btn-gold text-xs px-5 py-2 min-h-11"
           >
             Load Chart
           </button>
+          <a href={TOKEN.dexScreenerUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-gold underline">Open on DexScreener</a>
         </div>
       )}
 
       {/* Spinner while iframe is loading */}
-      {loaded && !iframeReady && (
+      {loaded && !iframeReady && !timedOut && (
         <div className="absolute inset-0 flex items-center justify-center bg-dark-card/60 backdrop-blur-sm pointer-events-none">
           <RefreshCw className="w-6 h-6 text-gold animate-spin" />
+        </div>
+      )}
+      {loaded && timedOut && !iframeReady && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-dark-card/95 p-5 text-center">
+          <p className="text-sm text-cream/70">Chart is taking too long to load.</p>
+          <a href={TOKEN.dexScreenerUrl} target="_blank" rel="noopener noreferrer" className="btn-gold text-xs px-5 py-2">Open chart on DexScreener</a>
         </div>
       )}
 
@@ -139,8 +146,6 @@ function LazyChart() {
           src={src}
           title="MOKKI DAO Live Chart"
           className="w-full h-full"
-          loading="lazy"
-          allowFullScreen
           style={{ border: 'none', display: 'block' }}
           onLoad={() => setIframeReady(true)}
         />
@@ -150,7 +155,7 @@ function LazyChart() {
 }
 
 export default function MarketStats() {
-  const { data, loading, error, isStale, refresh } = useMarketData()
+  const { data, loading, error, isStale, noPair, refresh } = useMarketData()
 
   const lastUpdatedStr = data.lastUpdated
     ? data.lastUpdated.toLocaleTimeString()
@@ -215,11 +220,11 @@ export default function MarketStats() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3"
         >
-          <StatItem label="Price" value={fmtPrice(data.price)} loading={loading} />
+          <StatItem label="Price" value={fmtPrice(data.price)} loading={loading} noPair={noPair} />
           <ChangeCard label="1h Change" val={data.priceChange1h} loading={loading} />
           <ChangeCard label="24h Change" val={data.priceChange24h} loading={loading} />
-          <StatItem label="Market Cap" value={fmt(data.marketCap)} loading={loading} />
-          <StatItem label="FDV" value={fmt(data.fdv)} loading={loading} />
+          <StatItem label="Market Cap" value={fmt(data.marketCap)} loading={loading} noPair={noPair} />
+          <StatItem label="FDV" value={fmt(data.fdv)} loading={loading} noPair={noPair} />
         </motion.div>
 
         <motion.div

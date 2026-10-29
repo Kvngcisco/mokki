@@ -31,7 +31,7 @@ export const TOKEN = {
   pancakeSwapUrl:
     'https://pancakeswap.finance/swap?outputCurrency=0x26B9fe87c94ce0535b7B5f4f4Dda03480Fa98B39',
   dexScreenerUrl:
-    'https://dexscreener.com/bsc/0x26B9fe87c94ce0535b7B5f4f4Dda03480Fa98B39',
+    'https://dexscreener.com/bsc/0x6c92527806525a9fb605301e2922d5500108f4d9',
   bscScanUrl:
     'https://bscscan.com/token/0x26B9fe87c94ce0535b7B5f4f4Dda03480Fa98B39',
 }
@@ -67,7 +67,7 @@ export const TRUST = {
     },
     {
       name: 'DexScreener',
-      url: 'https://dexscreener.com/bsc/0x26B9fe87c94ce0535b7B5f4f4Dda03480Fa98B39',
+      url: 'https://dexscreener.com/bsc/0x6c92527806525a9fb605301e2922d5500108f4d9',
       icon: 'bar-chart-2',
     },
     {
@@ -192,3 +192,4 @@ export const FAQ = [
 ]
 
 export const DEXSCREENER_API = `https://api.dexscreener.com/latest/dex/tokens/${TOKEN.contractAddress}`
+export const DEXSCREENER_PAIR_API = `https://api.dexscreener.com/latest/dex/pairs/bsc/0x6c92527806525a9fb605301e2922d5500108f4d9`

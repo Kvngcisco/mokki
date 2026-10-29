@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback } from 'react'
-import { DEXSCREENER_API } from '../config'
+import { DEXSCREENER_API, DEXSCREENER_PAIR_API } from '../config'
 
 export interface MarketData {
   price: number | null
@@ -55,21 +55,38 @@ export function useMarketData() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isStale, setIsStale] = useState(false)
+  const [noPair, setNoPair] = useState(false)
 
   const refresh = useCallback(async () => {
-    try {
-      const res = await globalThis.fetch(DEXSCREENER_API)
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      const json = await res.json()
-      setData(formatDexData(json))
-      setError(null)
-      setIsStale(false)
-    } catch (e: any) {
-      setError(e?.message ?? 'Failed to fetch market data')
-      setIsStale(true)
-    } finally {
-      setLoading(false)
+    setNoPair(false)
+    let lastError: unknown = null
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        let json: any = null
+        for (const url of [DEXSCREENER_PAIR_API, DEXSCREENER_API]) {
+          const res = await globalThis.fetch(url, { cache: 'no-store' })
+          if (!res.ok) continue
+          const j = await res.json()
+          if (j?.pairs?.length) { json = j; break }
+        }
+        if (!json) throw new Error('no pair data')
+        const formatted = formatDexData(json)
+        setData(formatted)
+        setNoPair(false)
+        setError(null)
+        setIsStale(false)
+        setLoading(false)
+        return
+      } catch (e: any) {
+        lastError = e
+        if (attempt === 0) await new Promise(resolve => setTimeout(resolve, 900))
+      }
     }
+    setError((lastError as any)?.message ?? null)
+    setIsStale(Boolean(lastError))
+    setNoPair(!lastError)
+    setData(formatDexData({ pairs: null }))
+    setLoading(false)
   }, [])
 
   useEffect(() => {
@@ -78,5 +95,5 @@ export function useMarketData() {
     return () => clearInterval(interval)
   }, [refresh])
 
-  return { data, loading, error, isStale, refresh }
+  return { data, loading, error, isStale, noPair, refresh }
 }

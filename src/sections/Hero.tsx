@@ -61,7 +61,7 @@ interface StatCardProps {
   scrollRotate?: any
 }
 
-function StatCard({ label, value, loading, positive, delay, scrollRotate }: StatCardProps) {
+function StatCard({ label, value, loading, positive, delay, scrollRotate, isLight, noPair }: StatCardProps & { isLight: boolean; noPair: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20, rotateX: 20 }}
@@ -73,7 +73,7 @@ function StatCard({ label, value, loading, positive, delay, scrollRotate }: Stat
       }}
       className="mobile-stat-card"
     >
-      <p className="text-[10px] uppercase tracking-wider mb-1" style={{ color: 'rgba(255,246,229,0.4)' }}>
+        <p className="text-[10px] uppercase tracking-wider mb-1 hero-stat-label">
         {label}
       </p>
       {loading ? (
@@ -81,16 +81,9 @@ function StatCard({ label, value, loading, positive, delay, scrollRotate }: Stat
       ) : (
         <p
           className="text-base font-bold font-display tabular-nums"
-          style={{
-            color:
-              positive === true
-                ? '#8BD450'
-                : positive === false
-                ? '#F4607A'
-                : 'var(--cream, #FFF6E5)',
-          }}
+          style={{ color: positive === true ? '#8BD450' : positive === false ? '#F4607A' : isLight ? '#26180c' : 'var(--cream, #FFF6E5)' }}
         >
-          {value ?? <span style={{ color: 'rgba(255,246,229,0.3)', fontSize: '0.875rem' }}>—</span>}
+          {value ?? <span style={{ color: isLight ? '#5c4938' : 'var(--cream, #FFF6E5)', opacity: 0.8, fontSize: '0.75rem' }}>{noPair ? 'chart not live yet' : '—'}</span>}
         </p>
       )}
     </motion.div>
@@ -199,7 +192,9 @@ function DesktopParticles() {
 ══════════════════════════════════════════════════════════════════════════ */
 function MobileHero() {
   const reducedMotion = useReducedMotion()
-  const { data, loading } = useMarketData()
+  const introVideoRef = useRef<HTMLVideoElement>(null)
+  const [introVideoReady, setIntroVideoReady] = useState(true)
+  const { data, loading, noPair } = useMarketData()
   const { theme } = useTheme()
   const isLight = theme === 'light'
   const sectionRef = useRef<HTMLElement>(null)
@@ -236,6 +231,17 @@ function MobileHero() {
   // Stat card staggered rotateX (per card, small delay baked into initial animation)
   const rawCardRX = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [0, 10])
   const cardRX    = useSpring(rawCardRX, springCfg)
+
+  useEffect(() => {
+    const video = introVideoRef.current
+    if (!video) return
+    const onVideoError = () => setIntroVideoReady(false)
+    video.addEventListener('error', onVideoError)
+    video.play().catch(() => {
+      // The poster remains visible if browser autoplay policy blocks playback.
+    })
+    return () => video.removeEventListener('error', onVideoError)
+  }, [])
 
   const copyContract = () => {
     navigator.clipboard.writeText(TOKEN.contractAddress)
@@ -298,6 +304,25 @@ function MobileHero() {
       }}
     >
       {/* ── Dot / grid pattern ───────────────────────────────────────── */}
+      {introVideoReady && (
+        <div className="mobile-hero-video-frame" aria-hidden="true">
+          <video
+            ref={introVideoRef}
+            className="mobile-hero-intro-video"
+            src="/assets/mokki-intro.mp4"
+            poster={ASSETS.mascot}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            onError={() => setIntroVideoReady(false)}
+          />
+        </div>
+      )}
+      {!introVideoReady && (
+        <img className="mobile-hero-video-fallback" src={ASSETS.mascot} alt="MOKKI DAO mascot" />
+      )}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
@@ -564,6 +589,8 @@ function MobileHero() {
               positive={s.positive}
               delay={0.5 + i * 0.04}
               scrollRotate={cardRX}
+              isLight={isLight}
+              noPair={noPair}
             />
           ))}
         </motion.div>
@@ -694,6 +721,9 @@ function DesktopHero() {
     if (!video) return
     const onVideoError = () => setIntroVideoReady(false)
     video.addEventListener('error', onVideoError)
+    video.play().catch(() => {
+      // Keep the poster visible if autoplay is restricted by the browser.
+    })
     return () => video.removeEventListener('error', onVideoError)
   }, [])
   const copyContract = () => {
@@ -734,11 +764,11 @@ function DesktopHero() {
                 className="hero-intro-video"
                 src="/assets/mokki-intro.mp4"
                 poster={ASSETS.mascot}
-                autoPlay={!reducedMotion}
+                autoPlay
                 muted
                 loop
                 playsInline
-                preload="none"
+                preload="auto"
                 aria-label="MOKKI DAO intro"
                 onError={() => setIntroVideoReady(false)}
               />
