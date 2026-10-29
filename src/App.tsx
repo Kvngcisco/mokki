@@ -1,7 +1,6 @@
 import { MotionConfig } from 'framer-motion'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import LoadingScreen from './components/LoadingScreen'
 import Navbar from './components/Navbar'
 import MarqueeTicker from './components/MarqueeTicker'
 import SectionDivider from './components/SectionDivider'
@@ -23,8 +22,6 @@ import { PROJECT, TOKEN, SOCIALS } from './config'
 import { ASSETS } from './assets'
 
 export default function App() {
-  const [loaded, setLoaded] = useState(false)
-
   return (
     <MotionConfig reducedMotion="user">
       <>
@@ -50,8 +47,6 @@ export default function App() {
             sameAs: [SOCIALS.twitter, SOCIALS.telegram, TOKEN.bscScanUrl].filter(Boolean),
           })}</script>
         </Helmet>
-        <LoadingScreen onComplete={() => setLoaded(true)} />
-        {loaded && (
           <div className="relative z-10 min-h-screen">
             <Navbar />
             <MarqueeTicker />
@@ -84,7 +79,6 @@ export default function App() {
             </main>
             <Footer />
           </div>
-        )}
       </>
     </MotionConfig>
   )
