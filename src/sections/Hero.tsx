@@ -315,7 +315,7 @@ function MobileHero() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             onError={() => setIntroVideoReady(false)}
           />
         </div>
@@ -757,7 +757,7 @@ function DesktopHero() {
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 aria-label="MOKKI DAO intro"
                 onError={() => setIntroVideoReady(false)}
               />
