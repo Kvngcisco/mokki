@@ -134,8 +134,8 @@ export default function Tokenomics() {
               <div className="space-y-3">
                 {[
                   { label: 'Ownership Renounced', ok: TOKEN.ownershipRenounced },
-                  { label: '0% Buy Tax', ok: TOKEN.buyTax === 0 },
-                  { label: '0% Sell Tax', ok: TOKEN.sellTax === 0 },
+                  { label: 'Low Buy Tax (0.14%)', ok: TOKEN.buyTax <= 1 },
+                  { label: '4% Sell Tax', ok: TOKEN.sellTax > 0 },
                   { label: 'No Mint Function', ok: true },
                   { label: 'Open Source (BscScan)', ok: true },
                 ].map(item => (

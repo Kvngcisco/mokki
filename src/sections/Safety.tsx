@@ -84,7 +84,7 @@ export default function Safety() {
               {[
                 { label: 'Ownership Renounced', status: true, note: 'Verified on BscScan' },
                 { label: 'No Mint Function', status: true, note: 'Cannot create new tokens' },
-                { label: 'No Hidden Fees', status: true, note: '0/0 tax confirmed' },
+                { label: 'Low Fees', status: true, note: '0.14% buy / 4% sell tax' },
                 { label: 'Source Code Verified', status: true, note: 'Open source on BscScan' },
                 { label: 'Audit Report', status: null, note: 'Not yet available' },
                 { label: 'Liquidity Locked', status: TOKENOMICS.liquidityLock.locked, note: TOKENOMICS.liquidityLock.locked ? `${TOKENOMICS.liquidityLock.platform}` : 'Not yet available' },

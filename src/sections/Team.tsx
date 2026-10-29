@@ -38,7 +38,7 @@ export default function Team() {
               <div className="flex flex-wrap gap-3 mt-4 justify-center md:justify-start">
                 {[
                   { label: 'Ownership Renounced', ok: true },
-                  { label: '0/0 Tax', ok: true },
+                  { label: '0.14% Buy / 4% Sell Tax', ok: true },
                   { label: 'No Mint Function', ok: true },
                 ].map(item => (
                   <span key={item.label} className="tag text-xs">

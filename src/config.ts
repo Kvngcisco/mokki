@@ -23,8 +23,8 @@ export const TOKEN = {
   totalSupply: '1,000,000,000',
   totalSupplyRaw: 1_000_000_000,
   circulatingSupply: null, // TODO: confirm circulating supply
-  buyTax: 0,
-  sellTax: 0,
+  buyTax: 0.14,
+  sellTax: 4,
   ownershipRenounced: true,
   launchPlatform: 'PancakeSwap',
   tradingPairAddress: null, // TODO: add main MOKKI/BNB or MOKKI/BUSD pair address
@@ -167,7 +167,7 @@ export const FAQ = [
   },
   {
     q: 'Is there a buy/sell tax?',
-    a: '$MOKKI has a 0/0 tax, no fees on buys or sells.',
+    a: 'Buy tax is 0.14% and sell tax is 4%. A small sell tax supports the treasury and ecosystem growth.',
   },
   {
     q: 'Is ownership renounced?',

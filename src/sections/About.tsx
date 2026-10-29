@@ -19,7 +19,7 @@ const CARDS = [
   {
     icon: TrendingUp,
     title: 'Sustainable Growth',
-    desc: 'Tokenomics built for longevity: 0/0 tax, renounced ownership, and transparent liquidity management.',
+    desc: 'Tokenomics built for longevity: low taxes (0.14% buy / 4% sell), renounced ownership, and transparent liquidity management.',
     color: '#3B6BFF',
   },
   {
