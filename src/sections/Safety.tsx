@@ -16,7 +16,7 @@ export default function Safety() {
           <AlertTriangle className="w-6 h-6 text-pink flex-shrink-0 mt-0.5" />
           <div className="space-y-1.5 text-sm">
             <p className="font-bold text-pink text-base">⚠️ Beware of Fake Tokens & Scams</p>
-            <p className="text-cream/70">Only trust the contract address shown on this website. Admins will <strong>never</strong> DM you first. Never share your seed phrase or private key with anyone — no legitimate project will ever ask for it.</p>
+            <p className="text-cream/70">Only trust the contract address shown on this website. Admins will <strong>never</strong> DM you first. Never share your seed phrase or private key with anyone. No legitimate project will ever ask for it.</p>
             <p className="text-cream/70">Official CA: <span className="font-mono text-cream">{TOKEN.contractAddress}</span></p>
           </div>
         </motion.div>

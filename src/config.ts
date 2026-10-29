@@ -10,7 +10,7 @@ export const PROJECT = {
   shortDescription:
     'MOKKI DAO is a 100% community-owned, decentralized Web3 ecosystem designed to drive community governance, utility, and GameFi innovation on the BNB Smart Chain.',
   longDescription:
-    'MOKKI DAO puts real power in the hands of its holders. Through on-chain governance, community-run initiatives, and an expanding suite of GameFi utilities, $MOKKI is building the future of decentralized communities — one vote, one game, one milestone at a time.',
+    'MOKKI DAO puts real power in the hands of its holders. Through on-chain governance, community-run initiatives, and an expanding suite of GameFi utilities, $MOKKI is building the future of decentralized communities. One vote, one game, one milestone at a time.',
   domain: 'mokkidao.com', // TODO: confirm domain
   launchDate: 'Token is live on PancakeSwap', // TODO: exact launch date
   chain: 'BNB Smart Chain (BSC)',
@@ -153,7 +153,7 @@ export const STAKING = {
 export const DAO = {
   snapshotUrl: null, // TODO: Snapshot.org space URL
   description:
-    'MOKKI DAO governance allows every $MOKKI holder to propose and vote on key decisions — from treasury spending to ecosystem partnerships. Your tokens are your votes.',
+    'MOKKI DAO governance allows every $MOKKI holder to propose and vote on key decisions, from treasury spending to ecosystem partnerships. Your tokens are your votes.',
 }
 
 export const FAQ = [
@@ -163,11 +163,11 @@ export const FAQ = [
   },
   {
     q: 'What is the contract address?',
-    a: '0x26B9fe87c94ce0535b7B5f4f4Dda03480Fa98B39 — always verify on BscScan before buying.',
+    a: '0x26B9fe87c94ce0535b7B5f4f4Dda03480Fa98B39. Always verify on BscScan before buying.',
   },
   {
     q: 'Is there a buy/sell tax?',
-    a: '$MOKKI has a 0/0 tax — no fees on buys or sells.',
+    a: '$MOKKI has a 0/0 tax, no fees on buys or sells.',
   },
   {
     q: 'Is ownership renounced?',

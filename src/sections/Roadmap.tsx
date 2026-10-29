@@ -39,7 +39,7 @@ export default function Roadmap() {
           <span className="tag mb-4 inline-flex">Our Journey</span>
           <h2 className="section-title">Roadmap</h2>
           <p className="text-cream/60 mt-3 max-w-xl mx-auto">
-            From launch to a fully decentralized GameFi ecosystem — here's where we're headed.
+            From launch to a fully decentralized GameFi ecosystem. Here's where we're headed.
           </p>
         </motion.div>
 

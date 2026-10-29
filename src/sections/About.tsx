@@ -13,7 +13,7 @@ const CARDS = [
   {
     icon: Hammer,
     title: 'Building Together',
-    desc: 'A growing team of contributors — developers, designers, and community leaders — building on BSC.',
+    desc: 'A growing team of contributors: developers, designers, and community leaders building on BSC.',
     color: '#F28C28',
   },
   {
@@ -25,7 +25,7 @@ const CARDS = [
   {
     icon: Eye,
     title: 'Clear Vision',
-    desc: 'From GameFi to DAO governance and beyond — MOKKI DAO has a clear roadmap into the Web3 future.',
+    desc: 'From GameFi to DAO governance and beyond. MOKKI DAO has a clear roadmap into the Web3 future.',
     color: '#8BD450',
   },
 ]

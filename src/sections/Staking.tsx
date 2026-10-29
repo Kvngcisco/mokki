@@ -110,7 +110,7 @@ export default function Staking() {
                 <p className="font-display font-bold text-lime text-xl tabular-nums">
                   ~{parseFloat(estimated).toLocaleString()} {PROJECT.ticker}
                 </p>
-                <p className="text-xs text-cream/30">Illustrative only — actual rewards may vary</p>
+                <p className="text-xs text-cream/30">Illustrative only. Actual rewards may vary</p>
               </div>
             )}
 
