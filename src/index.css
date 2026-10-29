@@ -324,6 +324,13 @@ html.light .hero-mascot-wrap > div:first-child {
     position: relative;
   }
 
+  /* Keep the video circle clear of the headline: drop the content below it */
+  .has-intro-video ~ * .hero-content-outer,
+  .hero-mascot-outer.has-intro-video ~ .hero-content-outer,
+  .hero-section .hero-content-outer {
+    margin-top: clamp(88px, 26vw, 132px);
+  }
+
   /* Scrim: gradient from transparent → page bg, covers belly not face */
   .hero-scrim {
     position: absolute;
