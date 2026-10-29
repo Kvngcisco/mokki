@@ -8,6 +8,8 @@ let currentTheme: Theme = 'dark'
 let initialized = false
 const listeners = new Set<(t: Theme) => void>()
 
+init()
+
 function init() {
   if (initialized || typeof window === 'undefined') return
   initialized = true
