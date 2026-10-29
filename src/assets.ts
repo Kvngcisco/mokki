@@ -26,11 +26,11 @@ export const ASSETS = {
    * Logo full light variant — use on cream/light backgrounds.
    * Falls back to logoFull if file doesn't exist.
    */
-  logoFullLight: '/assets/logo-full-light.png',
+  logoFullLight: '/assets/logo-full.png',
 
   /**
    * Open Graph / Twitter card (1200×630).
    * Generated or supplied separately.
    */
-  ogImage: '/assets/og-image.png',
+  ogImage: '/assets/logo-full.png',
 } as const

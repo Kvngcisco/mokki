@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { label: 'DAO',        href: '#dao'        },
   { label: 'Roadmap',    href: '#roadmap'    },
   { label: 'Community',  href: '#community'  },
+  { label: 'FAQ',        href: '#faq'        },
 ]
 
 export default function Navbar() {
@@ -81,6 +82,7 @@ export default function Navbar() {
               {NAV_LINKS.map(link => (
                 <a key={link.href} href={link.href}
                   onClick={e => { e.preventDefault(); handleNav(link.href) }}
+                  aria-current={active === link.href.replace('#', '') ? 'location' : undefined}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
                     ${active === link.href.replace('#', '')
                       ? 'text-gold bg-gold/10'
@@ -94,7 +96,7 @@ export default function Navbar() {
             {/* Right side */}
             <div className="flex items-center gap-2">
               <motion.button whileTap={{ scale: 0.9 }} onClick={toggle}
-                className="w-9 h-9 rounded-full flex items-center justify-center border border-dark-border hover:border-gold/50 bg-dark-card/50 hover:bg-gold/10 transition-all duration-200"
+                className="w-11 h-11 md:w-9 md:h-9 rounded-full flex items-center justify-center border border-dark-border hover:border-gold/50 bg-dark-card/50 hover:bg-gold/10 transition-all duration-200"
                 aria-label="Toggle theme">
                 <AnimatePresence mode="wait">
                   <motion.div key={theme}
@@ -110,7 +112,7 @@ export default function Navbar() {
                 Buy {PROJECT.ticker}
               </a>
 
-              <button className="lg:hidden w-9 h-9 rounded-full flex items-center justify-center border border-dark-border bg-dark-card/50"
+              <button className="lg:hidden w-11 h-11 rounded-full flex items-center justify-center border border-dark-border bg-dark-card/50"
                 onClick={() => setMobileOpen(o => !o)} aria-label="Toggle menu" aria-expanded={mobileOpen}>
                 {mobileOpen ? <X className="w-4 h-4 text-cream" /> : <Menu className="w-4 h-4 text-cream" />}
               </button>
@@ -124,13 +126,14 @@ export default function Navbar() {
         {mobileOpen && (
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.25 }}
-            className="fixed left-0 right-0 z-40 bg-dark-bg/98 backdrop-blur-xl border-b border-dark-border lg:hidden"
-            style={{ top: 'calc(var(--ticker-h, 32px) + var(--nav-h, 56px))' }}>
+            className="mobile-menu-drawer fixed left-0 right-0 z-40 bg-dark-bg/98 backdrop-blur-xl border-b border-dark-border lg:hidden"
+            style={{ top: 'calc(var(--ticker-h, 32px) + var(--nav-h, 56px) + env(safe-area-inset-top))' }}>
             <div className="px-4 py-4 flex flex-col gap-1">
               {NAV_LINKS.map(link => (
                 <a key={link.href} href={link.href}
                   onClick={e => { e.preventDefault(); handleNav(link.href) }}
-                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200
+                  aria-current={active === link.href.replace('#', '') ? 'location' : undefined}
+                  className={`px-4 py-3 min-h-11 rounded-xl text-sm font-medium transition-all duration-200
                     ${active === link.href.replace('#', '') ? 'text-gold bg-gold/10' : 'text-cream/70 hover:text-cream hover:bg-white/5'}`}>
                   {link.label}
                 </a>

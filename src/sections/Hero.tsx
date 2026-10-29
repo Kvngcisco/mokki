@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   motion,
   useScroll,
@@ -408,7 +408,7 @@ function MobileHero() {
             }}
           >
             <span
-              className="block"
+              className="block hero-kicker"
               style={{
                 color: isLight ? '#1A1008' : '#FFF6E5',
                 textShadow: isLight
@@ -419,7 +419,7 @@ function MobileHero() {
               Built for the
             </span>
             <span
-              className="block mobile-hero-community"
+              className="block mobile-hero-community hero-headline-meme"
               style={{
                 background: isLight
                   ? 'linear-gradient(135deg, #B36800 0%, #8A3E00 100%)'
@@ -685,16 +685,30 @@ function MobileHero() {
 ══════════════════════════════════════════════════════════════════════════ */
 function DesktopHero() {
   const contractRef = useRef<HTMLSpanElement>(null)
+  const [introVideoReady, setIntroVideoReady] = useState(true)
+  const reducedMotion = useReducedMotion()
+  const introVideoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = introVideoRef.current
+    if (!video) return
+    const onVideoError = () => setIntroVideoReady(false)
+    video.addEventListener('error', onVideoError)
+    return () => video.removeEventListener('error', onVideoError)
+  }, [])
   const copyContract = () => {
     navigator.clipboard.writeText(TOKEN.contractAddress)
     toast.success('Contract address copied!', { icon: '📋' })
   }
 
   return (
-    <section id="hero" className="hero-section relative overflow-hidden">
-      <div
-        aria-hidden="true"
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full pointer-events-none opacity-[0.07]"
+    <section id="hero" className="hero-section relative overflow-hidden" style={{ background: 'radial-gradient(ellipse at 72% 43%, rgba(242,140,40,0.16) 0%, transparent 35%), radial-gradient(ellipse at 18% 74%, rgba(139,212,80,0.09) 0%, transparent 40%)' }}>
+      <>
+        <span aria-hidden="true" className="hero-side-note">NO SUIT. ALL MOKKI.</span>
+        <span aria-hidden="true" className="hero-side-stamp">SINCE THE COMMUNITY SAID SO</span>
+        <div
+          aria-hidden="true"
+          className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full pointer-events-none opacity-[0.07]"
         style={{ background: 'radial-gradient(circle, #FFC53D 0%, transparent 70%)' }}
       />
       <div
@@ -707,7 +721,30 @@ function DesktopHero() {
 
       <div className="relative z-10 w-full">
         {/* Mascot column */}
-        <div className="hero-mascot-outer">
+        <div className={`hero-mascot-outer ${introVideoReady ? 'has-intro-video' : ''}`}>
+          {introVideoReady && (
+            <motion.div
+              className="hero-video-frame"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <video
+                ref={introVideoRef}
+                className="hero-intro-video"
+                src="/assets/mokki-intro.mp4"
+                poster={ASSETS.mascot}
+                autoPlay={!reducedMotion}
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-label="MOKKI DAO intro"
+                onError={() => setIntroVideoReady(false)}
+              />
+              <span className="hero-video-stamp" aria-hidden="true">MOKKI CAM · 001</span>
+            </motion.div>
+          )}
           <motion.div
             initial={{ opacity: 0, scale: 0.82 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -725,19 +762,14 @@ function DesktopHero() {
                 filter: 'blur(28px)',
               }}
             />
-            <motion.img
-              src={ASSETS.mascot}
-              alt="MOKKI DAO mascot — cheerful orange bull holding a cocktail"
-              loading="eager"
-              fetchPriority="high"
-              className="hero-mascot relative"
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              style={{
-                filter:
-                  'drop-shadow(0 0 2px rgba(255,197,61,0.7)) drop-shadow(0 20px 40px rgba(242,140,40,0.45)) saturate(1.1) contrast(1.05)',
-              }}
-            />
+        <motion.img
+          src={ASSETS.mascot}
+          alt="MOKKI DAO mascot, cheerful orange bull holding a cocktail"
+          loading="eager"
+          fetchPriority="high"
+          className="hero-mascot relative hero-mascot-float"
+          style={{ filter: 'drop-shadow(0 0 2px rgba(255,197,61,0.7)) drop-shadow(0 20px 40px rgba(242,140,40,0.45)) saturate(1.1) contrast(1.05)' }}
+        />
             {/* Floating badges */}
             <motion.div
               initial={{ opacity: 0, x: -24 }}
@@ -800,7 +832,7 @@ function DesktopHero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
-                className="block"
+                className="block hero-headline-meme"
                 style={{
                   background: 'linear-gradient(135deg, #FFC53D, #F28C28)',
                   WebkitBackgroundClip: 'text',
@@ -891,15 +923,25 @@ function DesktopHero() {
               <span className="text-xs text-cream/40 uppercase tracking-wider whitespace-nowrap">
                 Contract:
               </span>
-              <button
-                onClick={copyContract}
+              <a
+                href={TOKEN.bscScanUrl}
                 className="contract-bar flex-1 max-w-sm w-full"
-                title="Click to copy"
+                title="View on BscScan"
+                rel="noopener noreferrer"
+                target="_blank"
               >
-                <span ref={contractRef} className="truncate text-xs">
-                  {TOKEN.contractAddress}
-                </span>
+                <span className="truncate text-xs">{TOKEN.contractAddress}</span>
+                <ExternalLink className="w-3.5 h-3.5 text-gold flex-shrink-0" />
+              </a>
+              <button
+                type="button"
+                onClick={copyContract}
+                className="contract-bar min-h-11 justify-center"
+                title="Copy contract address"
+                aria-label="Copy contract address"
+              >
                 <Copy className="w-3.5 h-3.5 text-gold flex-shrink-0" />
+                <span className="text-xs">Copy CA</span>
               </button>
               <a
                 href={TOKEN.bscScanUrl}
@@ -930,6 +972,7 @@ function DesktopHero() {
           <div className="w-1 h-2 rounded-full bg-gold/60" />
         </motion.div>
       </motion.div>
+      </>
     </section>
   )
 }

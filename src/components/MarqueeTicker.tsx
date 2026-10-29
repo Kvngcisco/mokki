@@ -44,14 +44,16 @@ export default function MarqueeTicker() {
     { label: 'MCap',  value: fmt(data.marketCap) },
     { label: 'Vol',   value: fmt(data.volume24h) },
   ]
-  const all = [...items, ...items, ...items] // triple for seamless loop on small screens
+  const all = [...items, ...items] // one duplicate for a seamless loop with less repeated markup
 
   return (
     <div
       className="ticker-bar fixed top-0 left-0 right-0 z-[60] w-full overflow-hidden bg-dark-card/90 border-b border-dark-border/60 backdrop-blur-sm flex items-center"
+      role="region"
+      aria-label="Live MOKKI token market ticker"
       style={{ height: 'var(--ticker-h, 32px)' }}
     >
-      <div className="ticker-inner flex animate-marquee whitespace-nowrap">
+      <div className="ticker-inner flex w-max animate-marquee whitespace-nowrap motion-reduce:animate-none">
         {all.map((item, i) => (
           <span key={i} className="inline-flex items-center gap-1.5 px-5 text-xs">
             <span className="text-cream/40 uppercase tracking-wider">{item.label}</span>

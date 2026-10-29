@@ -30,7 +30,7 @@ function DonutChart({ data }: { data: typeof TOKENOMICS.allocations }) {
 
   return (
     <div className="flex flex-col items-center">
-      <svg width="160" height="160" viewBox="0 0 160 160">
+      <svg className="tokenomics-chart" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Token allocation chart">
         {slices.map(slice => (
           <path
             key={slice.label}
@@ -43,7 +43,7 @@ function DonutChart({ data }: { data: typeof TOKENOMICS.allocations }) {
           />
         ))}
         {/* Inner circle (donut hole) */}
-        <circle cx={cx} cy={cy} r={r * 0.55} fill="#14141F" />
+        <circle cx={cx} cy={cy} r={r * 0.55} fill="var(--theme-card, #14141F)" />
         {/* Center text */}
         <text x={cx} y={cy - 6} textAnchor="middle" className="fill-gold font-bold" fontSize="14" fontFamily="Baloo 2, cursive" fill="#FFC53D">
           {active ? `${active.percentage}%` : '1B'}
@@ -67,7 +67,7 @@ export default function Tokenomics() {
   }
 
   return (
-    <section id="tokenomics" className="py-20 px-4">
+    <section id="tokenomics" className="py-20 px-4 scroll-mt-28">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -100,10 +100,10 @@ export default function Tokenomics() {
             {/* Legend */}
             <div className="grid grid-cols-2 gap-2 mt-4">
               {TOKENOMICS.allocations.map(item => (
-                <div key={item.label} className="flex items-center gap-2">
+                <div key={item.label} className="tokenomics-legend-item flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: item.color }} />
-                  <span className="text-sm text-cream/70">{item.label}</span>
-                  <span className="ml-auto text-sm font-bold text-cream tabular-nums">{item.percentage}%</span>
+                  <span className="text-sm text-cream/70 min-w-0 break-words">{item.label}</span>
+                  <span className="ml-auto text-sm font-bold text-cream tabular-nums shrink-0">{item.percentage}%</span>
                 </div>
               ))}
             </div>

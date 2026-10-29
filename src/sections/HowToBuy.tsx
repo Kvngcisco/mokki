@@ -47,7 +47,7 @@ const STEPS = [
 
 export default function HowToBuy() {
   return (
-    <section id="how-to-buy" className="py-20 px-4">
+    <section id="how-to-buy" className="py-20 px-4 scroll-mt-28">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -75,7 +75,7 @@ export default function HowToBuy() {
           <div>
             <p className="text-sm font-semibold text-gold mb-0.5">Always verify the contract address</p>
             <p className="text-xs text-cream/60">
-              Official CA: <span className="font-mono text-cream">{TOKEN.contractAddress}</span>
+              Official CA: <span className="font-mono text-cream break-all">{TOKEN.contractAddress}</span>
             </p>
           </div>
         </motion.div>

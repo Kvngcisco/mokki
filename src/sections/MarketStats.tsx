@@ -82,6 +82,7 @@ function LazyChart() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [loaded, setLoaded] = useState(false)
   const [iframeReady, setIframeReady] = useState(false)
+  const loadTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Auto-load after 2 s of visibility
   useEffect(() => {
@@ -92,15 +93,15 @@ function LazyChart() {
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          timer = setTimeout(() => setLoaded(true), 2000)
+          if (!loadTimer.current) loadTimer.current = setTimeout(() => setLoaded(true), 2000)
         } else {
-          clearTimeout(timer)
+          if (loadTimer.current) { clearTimeout(loadTimer.current); loadTimer.current = null }
         }
       },
       { threshold: 0.2 },
     )
     obs.observe(el)
-    return () => { obs.disconnect(); clearTimeout(timer) }
+    return () => { obs.disconnect(); if (loadTimer.current) clearTimeout(loadTimer.current) }
   }, [])
 
   const src = `https://dexscreener.com/bsc/${TOKEN.contractAddress}?embed=1&theme=dark&trades=0&info=0`
@@ -108,8 +109,8 @@ function LazyChart() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full rounded-2xl overflow-hidden border border-dark-border"
-      style={{ height: 420 }}
+      className="lazy-chart-frame relative w-full rounded-2xl overflow-hidden border border-dark-border"
+      style={{ height: 'clamp(300px, 38vw, 420px)' }}
     >
       {/* Placeholder shown until iframe is requested */}
       {!loaded && (
@@ -138,6 +139,8 @@ function LazyChart() {
           src={src}
           title="MOKKI DAO Live Chart"
           className="w-full h-full"
+          loading="lazy"
+          allowFullScreen
           style={{ border: 'none', display: 'block' }}
           onLoad={() => setIframeReady(true)}
         />
@@ -156,7 +159,7 @@ export default function MarketStats() {
   return (
     <motion.section
       id="market-stats"
-      className="py-16 px-4"
+      className="py-16 px-4 scroll-mt-28"
       initial={{ opacity: 0, y: 40, rotateX: 8 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       viewport={{ once: true, margin: '-80px' }}
