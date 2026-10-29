@@ -21,6 +21,7 @@ export default function Navbar() {
   const [scrolled,    setScrolled]    = useState(false)
   const [active,      setActive]      = useState('')
   const [mobileOpen,  setMobileOpen]  = useState(false)
+  const isLight = theme === 'light'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -55,7 +56,7 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`site-navbar fixed top-[var(--ticker-h,32px)] left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-dark-bg/90 backdrop-blur-xl border-b border-dark-border shadow-lg shadow-black/20' : 'bg-transparent'
+          scrolled ? (isLight ? 'bg-[#F5F0E8]/95 backdrop-blur-xl border-b border-black/10 shadow-md shadow-black/5' : 'bg-dark-bg/90 backdrop-blur-xl border-b border-dark-border shadow-lg shadow-black/20') : 'bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,8 +86,8 @@ export default function Navbar() {
                   aria-current={active === link.href.replace('#', '') ? 'location' : undefined}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
                     ${active === link.href.replace('#', '')
-                      ? 'text-gold bg-gold/10'
-                      : 'text-cream/70 hover:text-cream hover:bg-white/5'}`}
+                      ? (isLight ? 'text-[#7A4800] bg-black/5' : 'text-gold bg-gold/10')
+                      : (isLight ? 'text-[#26180c]/70 hover:text-[#26180c] hover:bg-black/5' : 'text-cream/70 hover:text-cream hover:bg-white/5')}`}
                 >
                   {link.label}
                 </a>
@@ -96,7 +97,7 @@ export default function Navbar() {
             {/* Right side */}
             <div className="flex items-center gap-2">
               <motion.button whileTap={{ scale: 0.9 }} onClick={toggle}
-                className="w-11 h-11 md:w-9 md:h-9 rounded-full flex items-center justify-center border border-dark-border hover:border-gold/50 bg-dark-card/50 hover:bg-gold/10 transition-all duration-200"
+                className={`w-11 h-11 md:w-9 md:h-9 rounded-full flex items-center justify-center border transition-all duration-200 ${isLight ? 'border-black/15 bg-black/5 hover:bg-black/10' : 'border-dark-border hover:border-gold/50 bg-dark-card/50 hover:bg-gold/10'}`}
                 aria-label="Toggle theme">
                 <AnimatePresence mode="wait">
                   <motion.div key={theme}
@@ -112,9 +113,9 @@ export default function Navbar() {
                 Buy {PROJECT.ticker}
               </a>
 
-              <button className="lg:hidden w-11 h-11 rounded-full flex items-center justify-center border border-dark-border bg-dark-card/50"
+              <button className={`lg:hidden w-11 h-11 rounded-full flex items-center justify-center border ${isLight ? 'border-black/15 bg-black/5' : 'border-dark-border bg-dark-card/50'}`}
                 onClick={() => setMobileOpen(o => !o)} aria-label="Toggle menu" aria-expanded={mobileOpen}>
-                {mobileOpen ? <X className="w-4 h-4 text-cream" /> : <Menu className="w-4 h-4 text-cream" />}
+                {mobileOpen ? <X className={isLight ? "w-4 h-4 text-[#26180c]" : "w-4 h-4 text-cream"} /> : <Menu className={isLight ? "w-4 h-4 text-[#26180c]" : "w-4 h-4 text-cream"} />}
               </button>
             </div>
           </div>
@@ -126,7 +127,7 @@ export default function Navbar() {
         {mobileOpen && (
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.25 }}
-            className="mobile-menu-drawer fixed left-0 right-0 z-40 bg-dark-bg/98 backdrop-blur-xl border-b border-dark-border lg:hidden"
+            className={`mobile-menu-drawer fixed left-0 right-0 z-40 lg:hidden ${isLight ? 'bg-[#F5F0E8] border-b border-black/10' : 'bg-dark-bg/98 backdrop-blur-xl border-b border-dark-border'}`}
             style={{ top: 'calc(var(--ticker-h, 32px) + var(--nav-h, 56px) + env(safe-area-inset-top))' }}>
             <div className="px-4 py-4 flex flex-col gap-1">
               {NAV_LINKS.map(link => (

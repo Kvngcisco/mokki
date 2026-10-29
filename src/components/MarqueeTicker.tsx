@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { TrendingUp, TrendingDown } from 'lucide-react'
 import { useMarketData } from '../hooks/useMarketData'
 import { PROJECT } from '../config'
+import { useTheme } from '../hooks/useTheme'
 
 function fmt(n: number | null, prefix = '$') {
   if (n === null) return '—'
@@ -29,6 +30,8 @@ function Change({ val }: { val: number | null }) {
 }
 
 export default function MarqueeTicker() {
+  const { theme: _theme } = useTheme()
+  const isLight = _theme === 'light'
   const { data } = useMarketData()
 
   /* Publish --ticker-h so the hero can consume it */
@@ -48,7 +51,7 @@ export default function MarqueeTicker() {
 
   return (
     <div
-      className="ticker-bar fixed top-0 left-0 right-0 z-[60] w-full overflow-hidden bg-dark-card/90 border-b border-dark-border/60 backdrop-blur-sm flex items-center"
+      className={`ticker-bar fixed top-0 left-0 right-0 z-[60] w-full overflow-hidden backdrop-blur-sm flex items-center ${isLight ? 'bg-[#EFE8DC]/95 border-b border-black/10' : 'bg-dark-card/90 border-b border-dark-border/60'}`}
       role="region"
       aria-label="Live MOKKI token market ticker"
       style={{ height: 'var(--ticker-h, 32px)' }}
@@ -56,8 +59,8 @@ export default function MarqueeTicker() {
       <div className="ticker-inner flex w-max animate-marquee whitespace-nowrap motion-reduce:animate-none">
         {all.map((item, i) => (
           <span key={i} className="inline-flex items-center gap-1.5 px-5 text-xs">
-            <span className="text-cream/40 uppercase tracking-wider">{item.label}</span>
-            <span className="font-semibold tabular-nums text-cream">{item.value}</span>
+            <span className={isLight ? "text-[#26180c]/50 uppercase tracking-wider" : "text-cream/40 uppercase tracking-wider"}>{item.label}</span>
+            <span className={isLight ? "font-semibold tabular-nums text-[#26180c]" : "font-semibold tabular-nums text-cream"}>{item.value}</span>
             <span className="text-dark-border ml-1.5 text-cream/20">•</span>
           </span>
         ))}
