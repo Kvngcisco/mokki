@@ -59,11 +59,31 @@ export default function About() {
                 filter: 'blur(24px)',
               }}
             />
-            <img
-              src={ASSETS.mascot}
-              alt="MOKKI DAO mascot"
-              loading="lazy"
-              className="relative w-56 sm:w-72 lg:w-80 object-contain"
+            <video
+              src="/assets/mokki-about.mp4"
+              poster={ASSETS.mascot}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              onError={e => {
+                const el = e.currentTarget
+                if (!el.dataset.fallback) {
+                  el.dataset.fallback = '1'
+                  el.removeAttribute('src')
+                  el.removeAttribute('poster')
+                  ;(el as HTMLVideoElement).style.display = 'none'
+                  const img = document.createElement('img')
+                  img.src = ASSETS.mascot
+                  img.alt = 'MOKKI DAO mascot'
+                  img.loading = 'lazy'
+                  img.className = 'relative w-56 sm:w-72 lg:w-80 object-contain'
+                  img.style.filter = 'drop-shadow(0 12px 28px rgba(242,140,40,0.38)) saturate(1.05)'
+                  el.parentElement?.appendChild(img)
+                }
+              }}
+              className="relative w-56 sm:w-72 lg:w-80 object-contain rounded-3xl"
               style={{ filter: 'drop-shadow(0 12px 28px rgba(242,140,40,0.38)) saturate(1.05)' }}
             />
           </motion.div>
