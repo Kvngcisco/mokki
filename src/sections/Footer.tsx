@@ -1,3 +1,4 @@
+import { useTheme } from '../hooks/useTheme'
 import { motion } from 'framer-motion'
 import { Copy, ExternalLink, Send } from 'lucide-react'
 import toast from 'react-hot-toast'
@@ -17,6 +18,8 @@ const NAV_LINKS = [
 ]
 
 export default function Footer() {
+  const { theme } = useTheme()
+  const isLight = theme === 'light'
   const copy = () => {
     navigator.clipboard.writeText(TOKEN.contractAddress)
     toast.success('Contract copied!', { icon: '📋' })
@@ -25,7 +28,7 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-dark-border bg-dark-card/30 backdrop-blur-sm">
+    <footer className={`border-t ${isLight ? "border-black/10 bg-[#EFE8DC]" : "border-dark-border bg-dark-card/30 backdrop-blur-sm"}`}>
       <div className="max-w-6xl mx-auto px-4 py-16">
         {/* Top row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
