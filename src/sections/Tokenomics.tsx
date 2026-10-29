@@ -82,37 +82,23 @@ export default function Tokenomics() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Chart */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="glass-card p-6 relative"
-          >
-            <div className="relative" style={{ height: 300 }}>
-              <div className="flex flex-col items-center justify-center h-full">
-                <DonutChart data={TOKENOMICS.allocations} />
-              </div>
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="glass-card p-10 text-center"
+        >
+          <span className="tag inline-flex mb-4">Token Distribution</span>
+          <p className="text-lg font-display font-bold text-gold">
+            Official breakdown coming soon
+          </p>
+          <p className="text-sm text-cream/50 mt-2">
+            Community-first tokenomics. Full allocation details will be published here.
+          </p>
+        </motion.div>
 
-            {/* Legend */}
-            <div className="grid grid-cols-2 gap-2 mt-4">
-              {TOKENOMICS.allocations.map(item => (
-                <div key={item.label} className="tokenomics-legend-item flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: item.color }} />
-                  <span className="text-sm text-cream/70 min-w-0 break-words">{item.label}</span>
-                  <span className="ml-auto text-sm font-bold text-cream tabular-nums shrink-0">{item.percentage}%</span>
-                </div>
-              ))}
-            </div>
-            <p className="text-xs text-cream/30 text-center mt-4">
-              * Placeholder allocations — official breakdown coming soon
-            </p>
-          </motion.div>
-
-          {/* Token details */}
+        {/* Token details */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -187,7 +173,6 @@ export default function Tokenomics() {
               </a>
             </div>
           </motion.div>
-        </div>
       </div>
     </section>
   )
