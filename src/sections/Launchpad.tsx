@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, CircleHelp, Coins, Hexagon, Info, Layers3, Rocket, ShieldCheck, Sparkles, WalletCards, Zap } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
@@ -40,6 +40,43 @@ export default function Launchpad() {
   const [liquidity, setLiquidity] = useState('')
   const [attempted, setAttempted] = useState(false)
   const [toast, setToast] = useState(false)
+  const [logoPreview, setLogoPreview] = useState('')
+  const [logoError, setLogoError] = useState('')
+  const logoInputRef = useRef<HTMLInputElement>(null)
+  const logoObjectUrlRef = useRef<string | null>(null)
+
+  useEffect(() => () => {
+    if (logoObjectUrlRef.current) URL.revokeObjectURL(logoObjectUrlRef.current)
+  }, [])
+
+  const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    if (!file) return
+    if (file.size > 1024 * 1024) {
+      setLogoError('That file is over 1 MB. Choose a smaller image.')
+      return
+    }
+    const validMime = ['image/png', 'image/jpeg', 'image/svg+xml'].includes(file.type)
+    const validExt = /\.(png|jpe?g|svg)$/i.test(file.name)
+    if (!validMime && !validExt) {
+      setLogoError('Choose a PNG, JPG, or SVG image.')
+      return
+    }
+    if (logoObjectUrlRef.current) URL.revokeObjectURL(logoObjectUrlRef.current)
+    const objectUrl = URL.createObjectURL(file)
+    logoObjectUrlRef.current = objectUrl
+    setLogoPreview(objectUrl)
+    setLogoError('')
+  }
+
+  const removeLogo = () => {
+    if (logoObjectUrlRef.current) URL.revokeObjectURL(logoObjectUrlRef.current)
+    logoObjectUrlRef.current = null
+    setLogoPreview('')
+    setLogoError('')
+    if (logoInputRef.current) logoInputRef.current.value = ''
+  }
 
   const fieldClass = `${inputBase} ${isLight ? 'border-black/15 bg-white text-[#26180c] placeholder:text-[#26180c]/35' : 'border-dark-border bg-dark-bg/60 text-cream placeholder:text-cream/30'}`
   const muted = isLight ? 'text-[#26180c]/65' : 'text-cream/60'
@@ -113,12 +150,29 @@ export default function Launchpad() {
             <div className="min-h-[360px] px-5 py-6 sm:px-7 sm:py-7">
               <AnimatePresence mode="wait"><motion.div key={step} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={{ duration: 0.18 }}>
                 {step === 0 && <div>
-                  <div className="mb-5 flex items-center justify-between gap-4"><div><h4 className={`font-display text-lg font-bold ${heading}`}>Token details</h4><p className={`mt-1 text-sm ${muted}`}>The essentials that define your token.</p></div><motion.div key={symbol.slice(0, 1) || '?'} initial={{ scale: 0.75, rotate: -12 }} animate={{ scale: 1, rotate: 0 }} className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-gold/40 bg-gradient-to-br from-gold/25 to-orange/15 font-display text-2xl font-black text-gold shadow-lg shadow-gold/10">{symbol.trim().charAt(0) || '?'}</motion.div></div>
+                  <div className="mb-5 flex items-center justify-between gap-4"><div><h4 className={`font-display text-lg font-bold ${heading}`}>Token details</h4><p className={`mt-1 text-sm ${muted}`}>The essentials that define your token.</p></div><motion.div key={logoPreview || symbol.slice(0, 1) || '?'} initial={{ scale: 0.75, rotate: -12 }} animate={{ scale: 1, rotate: 0 }} className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-gold/40 bg-gradient-to-br from-gold/25 to-orange/15 font-display text-2xl font-black text-gold shadow-lg shadow-gold/10">{logoPreview ? <img src={logoPreview} alt="Token logo preview" className="h-full w-full object-cover" /> : (symbol.trim().charAt(0) || '?')}</motion.div></div>
                   <div className="grid gap-x-4 gap-y-4 sm:grid-cols-2">
                     <label className={`text-xs font-semibold ${muted}`}>Token name<input className={`${fieldClass} mt-2`} placeholder="e.g. MOKKI Moon" value={name} onChange={event => setName(event.target.value)} />{attempted && !name.trim() && <span className={errorClass}>Add a name for your token.</span>}</label>
                     <label className={`text-xs font-semibold ${muted}`}>Token symbol<input className={`${fieldClass} mt-2 uppercase`} placeholder="e.g. MOKKI" maxLength={10} value={symbol} onChange={event => setSymbol(event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))} />{attempted && !symbolIsValid ? <span className={errorClass}>Symbol must be 2-10 chars (letters or numbers).</span> : <span className={`mt-1.5 block text-[11px] ${muted}`}>2-10 characters. Preview: ${symbol || 'TOKEN'}</span>}</label>
                     <label className={`text-xs font-semibold ${muted}`}>Decimals<input className={`${fieldClass} mt-2`} type="number" min="0" max="18" value={decimals} onChange={event => setDecimals(event.target.value)} />{attempted && (!Number.isInteger(Number(decimals)) || Number(decimals) < 0 || Number(decimals) > 18) && <span className={errorClass}>Enter a whole number from 0 to 18.</span>}</label>
                     <label className={`text-xs font-semibold ${muted}`}>Total supply<input className={`${fieldClass} mt-2`} type="number" min="1" inputMode="numeric" value={supply} onChange={event => setSupply(event.target.value)} />{attempted && !(Number(supply) > 0) && <span className={errorClass}>Supply must be greater than zero.</span>}</label>
+                  </div>
+                  <div className={`mt-5 rounded-2xl border p-4 sm:flex sm:items-center sm:gap-4 ${isLight ? 'border-black/10 bg-white/50' : 'border-white/10 bg-white/[0.02]'}`}>
+                    <div className={`mb-4 flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-gold/35 bg-gradient-to-br from-gold/20 to-orange/10 font-display text-2xl font-black text-gold sm:mb-0 ${logoPreview ? '' : 'shadow-lg shadow-gold/10'}`}>
+                      {logoPreview ? <img src={logoPreview} alt="Selected token logo preview" className="h-full w-full object-cover" /> : (symbol.trim().charAt(0) || '?')}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className={`text-sm font-bold ${heading}`}>Project logo <span className={`font-normal ${muted}`}>(optional)</span></p>
+                      <p className={`mt-1 text-xs leading-relaxed ${muted}`}>PNG, JPG, or SVG. Max 1 MB. Preview stays on this device and is never uploaded.</p>
+                      {logoError && <p role="alert" className={errorClass}>{logoError}</p>}
+                      <input ref={logoInputRef} type="file" accept="image/png,image/jpeg,image/svg+xml,.png,.jpg,.jpeg,.svg" onChange={handleLogoChange} className="sr-only" aria-label="Choose a project logo" />
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <button type="button" onClick={() => logoInputRef.current?.click()} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-gold/40 px-4 py-2 text-xs font-bold text-gold transition hover:bg-gold/10 focus:outline-none focus:ring-2 focus:ring-gold/40">
+                          {logoPreview ? 'Replace logo' : 'Choose logo'} <ArrowRight className="h-3.5 w-3.5" />
+                        </button>
+                        {logoPreview && <button type="button" onClick={removeLogo} className={`inline-flex min-h-10 items-center rounded-full border px-4 py-2 text-xs font-semibold transition ${isLight ? 'border-black/15 text-[#26180c]/70 hover:bg-black/5' : 'border-white/15 text-cream/70 hover:bg-white/5'}`}>Remove</button>}
+                      </div>
+                    </div>
                   </div>
                 </div>}
 
@@ -137,7 +191,7 @@ export default function Launchpad() {
                 </div>}
 
                 {step === 2 && <div>
-                  <div className="mb-5 flex items-center gap-3"><motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="flex h-12 w-12 items-center justify-center rounded-2xl border border-gold/30 bg-gradient-to-br from-gold/20 to-orange/10 font-display text-xl font-black text-gold">{symbol.trim().charAt(0) || '?'}</motion.div><div><h4 className={`font-display text-lg font-bold ${heading}`}>{name || 'Your token'} <span className="text-gold">{symbol ? `$${symbol}` : ''}</span></h4><p className={`mt-0.5 text-xs ${muted}`}>Review your local configuration preview</p></div></div>
+                  <div className="mb-5 flex items-center gap-3"><motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-br from-gold/20 to-orange/10 font-display text-xl font-black text-gold">{logoPreview ? <img src={logoPreview} alt="Token logo preview" className="h-full w-full object-cover" /> : (symbol.trim().charAt(0) || '?')}</motion.div><div><h4 className={`font-display text-lg font-bold ${heading}`}>{name || 'Your token'} <span className="text-gold">{symbol ? `$${symbol}` : ''}</span></h4><p className={`mt-0.5 text-xs ${muted}`}>Review your local configuration preview</p></div></div>
                   <div className={`overflow-hidden rounded-2xl border ${isLight ? 'border-black/10' : 'border-white/10'}`}>
                     {[["Token name", name || 'Not set'], ['Symbol', symbol ? `$${symbol}` : 'Not set'], ['Decimals', decimals || 'Not set'], ['Total supply', supply ? Number(supply).toLocaleString() : 'Not set'], ['Network', chain === 'BSC' ? 'BNB Smart Chain · BEP-20' : 'Solana · SPL'], ['Buy / sell tax', taxEnabled ? `${buyTax || 0}% / ${sellTax || 0}%` : 'Not enabled'], ['Liquidity preview', liquidity ? `${liquidity} ${chain === 'BSC' ? 'BNB' : 'SOL'}` : 'Not set']].map(([label, value], index) => <div key={label} className={`flex items-center justify-between gap-3 px-4 py-3 text-sm ${index % 2 === 0 ? isLight ? 'bg-black/[0.025]' : 'bg-white/[0.025]' : ''}`}><span className={muted}>{label}</span><span className={`text-right font-semibold ${heading}`}>{value}</span></div>)}
                   </div>
