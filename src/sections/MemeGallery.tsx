@@ -6,12 +6,12 @@ import { ASSETS } from '../assets'
 import toast from 'react-hot-toast'
 
 const MEMES = [
-  { id: 1, src: ASSETS.logoFull, caption: 'MOKKI to the moon! 🚀',        category: 'bullish'   },
-  { id: 2, src: ASSETS.mascot,   caption: 'Community is everything 🤝',    category: 'community' },
-  { id: 3, src: ASSETS.logoFull, caption: '0 / 0 tax — why pay more? 💰', category: 'bullish'   },
-  { id: 4, src: ASSETS.mascot,   caption: 'DAO governance loading… 🏛️',   category: 'dao'       },
-  { id: 5, src: ASSETS.logoFull, caption: 'HODL strong 💎🤲',              category: 'bullish'   },
-  { id: 6, src: ASSETS.mascot,   caption: 'Welcome to the herd! 🐂',       category: 'community' },
+  { id: 1, src: '/assets/memes/meme-rocket.jpg',  caption: 'Houston, we have a Mokki 🚀',   category: 'bullish'   },
+  { id: 2, src: '/assets/memes/meme-chart.jpg',   caption: 'Community is everything 🤝',     category: 'bullish'   },
+  { id: 3, src: '/assets/memes/meme-hodl.jpg',    caption: '0 / 0 tax — why pay more? 💰',   category: 'bullish'   },
+  { id: 4, src: '/assets/memes/meme-dao.jpg',     caption: 'DAO governance loading… 🏛️',    category: 'dao'       },
+  { id: 5, src: '/assets/memes/meme-jacuzzi.jpg', caption: 'Staking rewards hit different 💎', category: 'community' },
+  { id: 6, src: '/assets/memes/meme-herd.jpg',    caption: 'Welcome to the herd! 🐂',        category: 'community' },
 ]
 
 const CATEGORIES = ['all', 'bullish', 'community', 'dao']

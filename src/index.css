@@ -770,3 +770,10 @@ html.light footer .bg-dark-card { background: rgba(255,255,255,.85) !important; 
     color: transparent;
   }
 }
+
+/* Meme gallery: theme-aware cards */
+html.light .glass-card { background: rgba(255,255,255,.9) !important; border-color: rgba(94,65,31,.2) !important; }
+html.light .glass-card .text-cream\/70 { color: rgba(38,24,12,.85) !important; }
+html.light .glass-card .text-cream\/40 { color: rgba(38,24,12,.55) !important; }
+html.light .glass-card .text-cream { color: #26180c !important; }
+html.light .glass-card .text-cream\/50 { color: rgba(38,24,12,.65) !important; }
