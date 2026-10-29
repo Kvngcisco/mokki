@@ -104,7 +104,8 @@ function LazyChart() {
     return () => { obs.disconnect(); clearTimeout(timer) }
   }, [])
 
-  const src = `https://dexscreener.com/bsc/0x6c92527806525a9fb605301e2922d5500108f4d9?embed=true&theme=dark&info=0`
+  // DexScreener blocks iframe embedding (x-frame-options: SAMEORIGIN); GeckoTerminal allows it
+  const src = `https://www.geckoterminal.com/bsc/pools/0x6c92527806525a9fb605301e2922d5500108f4d9?embed=1&info=0&swaps=0`
 
   return (
     <div
