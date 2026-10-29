@@ -699,9 +699,9 @@ html.light .mobile-stat-card p:last-child {
 @media(min-width:1024px) { .hero-video-frame { right:-4%;top:0; } .hero-mascot-outer.has-intro-video .hero-mascot-wrap { transform:translateX(-8%); } }
 @media(prefers-reduced-motion:reduce) { .hero-mascot-float { animation:none; } .hero-section::after { transform:none; } }
 html.light .hero-video-frame { border-color:rgba(140,85,15,.42);box-shadow:0 22px 70px rgba(112,72,18,.16),0 0 0 8px rgba(139,212,80,.08); }
-.mobile-hero-video-frame { position:absolute; top:calc(var(--ticker-h, 32px) + var(--nav-h, 56px) + env(safe-area-inset-top, 0px) + 18px); right:clamp(16px,5vw,32px); width:clamp(88px,28vw,140px); aspect-ratio:1; overflow:hidden; border:1px solid rgba(255,197,61,.58); border-radius:50%; box-shadow:0 12px 34px rgba(242,140,40,.24); z-index:1; pointer-events:none; }
+.mobile-hero-video-frame { position:relative; margin:0 auto 20px; width:clamp(120px,34vw,160px); aspect-ratio:1; overflow:hidden; border:1px solid rgba(255,197,61,.58); border-radius:50%; box-shadow:0 12px 34px rgba(242,140,40,.24); z-index:1; pointer-events:none; }
 .mobile-hero-intro-video { display:block; width:100%; height:100%; object-fit:cover; }
-.mobile-hero-video-fallback { position:absolute; top:calc(var(--ticker-h, 32px) + var(--nav-h, 56px) + env(safe-area-inset-top, 0px) + 18px); right:clamp(16px,5vw,32px); width:clamp(88px,28vw,140px); aspect-ratio:1; object-fit:contain; z-index:1; }
+.mobile-hero-video-fallback { position:relative; display:block; margin:0 auto 20px; width:clamp(120px,34vw,160px); aspect-ratio:1; object-fit:contain; z-index:1; }
 
 /* Light mode: translate common dark-theme utilities to readable light surfaces. */
 html.light .hero-desc,
