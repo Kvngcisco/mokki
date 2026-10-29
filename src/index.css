@@ -750,3 +750,23 @@ html.light footer .bg-dark-bg\/50 { background: rgba(255,255,255,.9) !important;
 html.light footer .border-dark-border { border-color: rgba(94,65,31,.25) !important; }
 html.light footer .text-cream\/20 { color: rgba(38,24,12,.3) !important; }
 html.light footer .bg-dark-card { background: rgba(255,255,255,.85) !important; }
+
+/* Robust gradient headline text: solid color fallback if background-clip:text unsupported */
+.gradient-text-dark { color: #FFC53D; }
+.gradient-text-light { color: #B36800; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .gradient-text-dark {
+    background: linear-gradient(135deg, #FFC53D 0%, #F28C28 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .gradient-text-light {
+    background: linear-gradient(135deg, #B36800 0%, #8A3E00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}

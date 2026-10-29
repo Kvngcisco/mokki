@@ -444,18 +444,7 @@ function MobileHero() {
               Built for the
             </span>
             <span
-              className="block mobile-hero-community hero-headline-meme"
-              style={{
-                background: isLight
-                  ? 'linear-gradient(135deg, #B36800 0%, #8A3E00 100%)'
-                  : 'linear-gradient(135deg, #FFC53D 0%, #F28C28 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                filter: isLight
-                  ? 'drop-shadow(0 0 6px rgba(180,100,0,0.15))'
-                  : 'drop-shadow(0 0 14px rgba(255,197,61,0.5))',
-              }}
+              className={`block mobile-hero-community hero-headline-meme ${isLight ? 'gradient-text-light' : 'gradient-text-dark'}`}
             >
               Community
             </span>
@@ -862,13 +851,7 @@ function DesktopHero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
-                className="block hero-headline-meme"
-                style={{
-                  background: 'linear-gradient(135deg, #FFC53D, #F28C28)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
+                className="block hero-headline-meme gradient-text-dark"
               >
                 Community
               </motion.span>
